@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html>
+    <!-- <script src="http://maps.google.com/maps/api/js"></script> -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpi3_zNu02pqCt0ilG6IlQTPmK18y3i9M&libraries=geometry" type="text/javascript"></script>
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.13.1/lodash.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/platform/1.3.1/platform.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/benchmark/2.1.0/benchmark.js"></script>
+	<script src="/bdigits.js"></script>
+		
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
+
+    <!--&callback=initMap-->
+    <script>
+
+
+
+
+
+    var input = digits;
+
+
+    
+
+//change interfered markers to red
+	function changeColours() {
+    //var allmarkers= markers;
+    var titles= [];
+    
+    markers.forEach(function(item){
+        titles.push(item.title);
+    });
+
+
+    markers.forEach(function(item,i){
+            markers.forEach(function(item2,j){
+
+                //calculate distance between markers
+                var distance=google.maps.geometry.spherical.computeDistanceBetween (item.position, item2.position);
+
+                //check only markers within 100km from each other
+                if (distance>1&distance<100000){
+                    
+                    //radar equation
+                    var interference=(10*Math.log((item2.Power)*1000000)+10*Math.log(item2.DC)+20*Math.log(3/(item2.Freq*10))-20*Math.log(distance))*Math.LOG10E+item2.Gt+item.Gr-22-item.Sens+item.Rxloss;
+                        
+                    //if there is interference, change marker colour to red and marker title
+                        if(interference>0){
+                            item.icon.fillColor= 'rgba(' + 255 + ', ' + 30 + ', ' + 30 + ',  1)';
+                            item.title=item.title+', Interference from: '+titles[j]+', dB above threshold: '+interference;
+
+                        }                    
+                }
+        });
+    });
+}
+
+//change user created markers to blue
+	function changeBlueMarkers(placedRadars) {
+    var locations = placedRadars;
+    //console.log(locations);
+    locations.forEach(function(radar) {
+        var marker = getMarker(radar.Id);
+        if (marker) {
+            marker.icon.fillColor='rgba(' + 30 + ', ' + 0 + ', ' + 255 + ',  1)';
+            marker.UserAdded=1;
+        } 
+    });
+}
+
+//add infowindows to markers
+function addInfowindows() {
+
+
+//add infowindows with info and delete button. Only allow delete for user created markers
+        markers.forEach(function(item){
+            
+            var infowindow = new google.maps.InfoWindow({
+                content: ''
+            });
+
+            if(item.UserAdded==1){
+                infowindow.setContent('<p>\''+item.title+'\'</p><input type="button" onclick="location.href=\'/radarMap/deleteSelectedPlacedRadar/\'+ \''+item.Id+'\'" value="delete \''+item.Id+'\'"/>');
+            }else{
+                infowindow.setContent('<p>\''+item.title+'\'</p>');
+            }
+
+
+//toggle window onclick
+            item.addListener('click', function() {
+
+                if(!item.open){
+                    infowindow.open(map,item);
+                    item.open = true;
+                }else{
+                    infowindow.close();
+                    item.open = false;
+                }
+
+            });
+
+
+        });
+    }
+
+
+	//add markers
+        function addMarkers(allRadars) {
+            var locations = allRadars;
+            locations.forEach(function(radar) {
+                var marker = getMarker(radar.Id);
+                if (marker) {
+                    moveMarker(marker, radar);
+                } else {
+                    addMarker(radar)
+                }
+            });
+        }
+
+    //add marker    
+        function addMarker(radar) {
+
+            var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(radar.Lat,radar.Long),
+                icon: {
+                    path: google.maps.SymbolPath.CIRCLE,
+                    fillColor: 'rgba(' + 30 + ', ' + 255 + ', ' + 100 + ',  1)',
+                    fillOpacity: 1,
+                    scale: 7,
+                    strokeWeight: 1
+                },
+                map: map,
+                Id: radar.Id,
+                Freq: Number(radar.Freq),
+                UserAdded: 0,
+                Power: Number(radar.Power),
+                Gt: Number(radar.Gt),
+                Gr: Number(radar.Gr),
+                DC: Number(radar.DC),
+                Sens: Number(radar.Sens),
+                Sat: Number(radar.Sat),
+                Txloss: Number(radar.Txloss),
+                Rxloss: Number(radar.Rxloss),
+                title: radar.Id
+            });
+             markers.push(marker);
+        }
+        function moveMarker(marker, radar) {
+            var newLatlng = new google.maps.LatLng(radar.Lat,radar.Long);
+            marker.setPosition(newLatlng);
+        }
+        function getMarker(id) {
+            var marker = markers.find(function(item) {
+                return item.title === id;
+            });
+            return marker;
+        }
+
+        //control to centre map
+        function CenterControl(controlDiv, map) {
+            var controlUI = document.createElement('div');
+            controlUI.style.backgroundColor = '#fff';
+            controlUI.style.border = '2px solid #fff';
+            controlUI.style.borderRadius = '3px';
+            controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+            controlUI.style.cursor = 'pointer';
+            controlUI.style.marginBottom = '22px';
+            controlUI.style.textAlign = 'center';
+            controlUI.title = 'Click to recenter the map';
+            controlDiv.appendChild(controlUI);
+            var controlText = document.createElement('div');
+            controlText.style.color = 'rgb(25,25,25)';
+            controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+            controlText.style.fontSize = '16px';
+            controlText.style.lineHeight = '38px';
+            controlText.style.paddingLeft = '5px';
+            controlText.style.paddingRight = '5px';
+            controlText.innerHTML = 'Center Map';
+            controlUI.appendChild(controlText);
+            controlUI.addEventListener('click', function() {
+                map.setCenter({
+                    lat: 40.32083333,
+                    lng: -98.44194444
+                });
+                map.setZoom(3);
+            });
+        }
+
+        //initialise
+        initRadars = function() {
+            var fullArray = input.split(',');
+            var objectArray = [];
+            fullArray.forEach(function(item, i, wholething) {
+                var tempArray = [];
+                var tempObject = {};
+                var tempID = '';
+                var tempLat = '';
+                var tempLong = '';
+                var tempEl = 0;
+                if ((i + 1) % 4 == 0) {
+                    tempID = fullArray[i - 3];
+                    tempLat = fullArray[i - 1];
+                    tempLong = fullArray[i];
+                    tempEl = fullArray[i - 2];
+                    tempObject = {
+                        Id: tempID,
+                        Elevation: tempEl,
+                        Lat: tempLat,
+                        Long: tempLong
+                    };
+                    objectArray.push(tempObject);
+                }
+            });
+            return objectArray;
+        }
+        ;
+        var map;
+        var markers = [];
+        function init() {
+            var latlng = new google.maps.LatLng(40.32083333,-98.44194444);
+            var myOptions = {
+                zoom: 3,
+                center: latlng,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            map = new google.maps.Map(document.getElementById('map'),myOptions);
+            var centerControlDiv = document.createElement('div');
+            var centerControl = new CenterControl(centerControlDiv,map);
+            centerControlDiv.index = 1;
+            map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
+            
+
+            //yellow placeholder marker
+            var tempMarker = new google.maps.Marker({
+                position: new google.maps.LatLng(40.32083333,-98.44194444),
+                icon: {
+                    path: google.maps.SymbolPath.CIRCLE,
+                    fillColor: 'rgba(' + 255 + ', ' + 255 + ', ' + 30 + ',  1)',
+                    fillOpacity: 1,
+                    scale: 7,
+                    strokeWeight: 1
+                },
+                map: map,
+                title: 'Place me!'
+            });
+            
+
+            //onclick map get lat and long
+            google.maps.event.addListener(map, "click", function(event) {
+                var lat = event.latLng.lat();
+                var lng = event.latLng.lng();
+                document.getElementById('latitude').value = lat;
+                document.getElementById('longitude').value = lng;
+                tempMarker.setPosition(event.latLng);
+            });
+            
+//read JSON files
+var allRadars=[];	
+		$.getJSON('/allRadars.json', function(data) {
+			$.each(data.radars, function(i, f) {
+			allRadars.push(f);
+		});   
+
+var placedRadars=[];	
+		$.getJSON('/placedRadars.json', function(data) {
+			$.each(data.radars, function(i, f) {
+			placedRadars.push(f);
+		});   
+            addMarkers(allRadars);
+            //addMarkersUser(placedRadars);   
+            changeBlueMarkers(placedRadars);                  
+            changeColours();
+            addInfowindows();
+});
+
+});      
+
+}
+window.onload = init;
+    </script>
+
+<style>
+html, body, #whole {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+#whole {
+    position: relative;
+}
+
+.left {
+    width: 60%;
+    float: left;
+    text-align: right;
+}
+.right {
+    width: 30%;
+    margin-left: 10px;
+    float:left;
+}
+</style>
+
+
+    <!--map div-->
+    <div id="whole" style="width:100% ; height:100%">
+    <div id="map" style="width:75% ; height:100% ; float: left"></div>
+    <!--interface div-->
+    <div id="interface" style="width:25% ; height:100% ; float: left">
+        <form>
+            <fieldset>
+                <legend>Add new system</legend>
+                <!--textboxes-->
+                <!--sensor name-->
+                <div>
+                    <div class="left">Sensor name </div>
+                    <div class="right">
+                        <input id="sname" value="Sensor" style="width:50%"/><br>
+                    </div>
+                </div>
+                <!--power-->
+                <div>
+                    <div class="left">Power (kW) </div>
+                    <div class="right">
+                        <input id="power" value="1000" style="width:50%"/><br>
+                    </div>
+                </div>
+                <!--Gt-->
+                <div>
+                    <div class="left">Gt (dB)</div>
+                    <div class="right">
+                        <input id="gt" value="45" style="width:50%"/><br>
+                    </div>
+                </div>
+                <!--Gr-->
+                <div>
+                    <div class="left">Gr (dB)</div>
+                    <div class="right">
+                        <input id="gr" value="45" style="width:50%"/><br>
+                    </div>
+                </div>
+                <!--Tau-->
+                <div>
+                    <div class="left">Duty cycle </div>
+                    <div class="right">
+                        <input id="tau" value="0.002" style="width:50%"/><br>
+                    </div>
+                </div>
+                <!--Frequency-->
+                <div>
+                    <div class="left">Frequency (GHz) </div>
+                    <div class="right">
+                        <input id="freq" value="2.8" style="width:50%"/><br>
+                    </div>
+                </div>
+                <!--Sensitivity-->
+                <div>
+                    <div class="left">Sensitivity (dB)</div>
+                    <div class="right">
+                        <input id="sens" value="-113" style="width:50%"/><br>
+                    </div>
+                </div>
+                <!--Saturation-->
+                <div>
+                    <div class="left">Saturation (dB)</div>
+                    <div class="right">
+                        <input id="sat" value="-10" style="width:50%"/><br>
+                    </div>
+                </div>
+                <!--Tx filter loss-->
+                <div>
+                    <div class="left">Tx filter loss (dB) </div>
+                    <div class="right">
+                        <input id="txloss" value="-70" style="width:50%"/><br>
+                    </div>
+                </div>
+                <!--Rx filter loss-->
+                <div>
+                    <div class="left">Rx filter loss (dB) </div>
+                    <div class="right">
+                        <input id="rxloss" value="-70" style="width:50%"/><br><br>
+                    </div>
+                </div>
+                <!--add sensor button-->
+                <p align="right">
+                    <div class="left">
+                    <input type="button" onclick="location.href='/radarMap/addRadar/'+ document.getElementById('sname').value+'/'+document.getElementById('power').value+'/'+document.getElementById('gt').value+'/'+document.getElementById('gr').value+'/'+document.getElementById('tau').value+'/'+document.getElementById('freq').value+'/'+document.getElementById('sens').value+'/'+document.getElementById('sat').value+'/'+document.getElementById('txloss').value+'/'+document.getElementById('rxloss').value;" value="Add sensor type"/>
+                </div>
+                </p>
+            </fieldset>
+        </form>
+        <!--end add sensor button-->
+        <form>
+            <fieldset>
+                <legend>User added systems</legend>
+                <p>
+                    <div class="left">Select Sensor Type </div>
+                    <select id="userCreatedList" class="right"></select><br>
+                </p>
+                <p align="right">
+                    <input type="button" onclick="location.href='/radarMap/deleteRadar/'+ document.getElementById('userCreatedList').value;" value="Delete sensor type"/>
+                </p>
+
+<!--                <p align="right">
+                    <input type="button" onclick="location.href='/radarMap/deleteRadarPlaced/'+ document.getElementById('userCreatedList').value;" value="Delete last placed sensor of selected type"/>
+                </p>-->
+
+                <!--Lat-->
+                <div>
+                    <div class="left">Latitude </div>
+                    <div class="right">
+                        <input id="latitude" value="Latitude" style="width:60%"/>
+                    </div>
+                </div>
+                <!--Long-->
+                <div>
+                    <div class="left">Longitude </div>
+                    <div class="right">
+                        <input id="longitude" value="Longitude" style="width:60%"/><br><br>
+
+                    </div>
+                    <p align="right">
+                            <input type="button" onclick="location.href='/radarMap/placeRadar/'+ document.getElementById('userCreatedList').value+'/'+document.getElementById('latitude').value+'/'+document.getElementById('longitude').value;" value="Place sensor"/>
+                    </p>
+
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+	
+<script>
+var select = document.getElementById("userCreatedList"); 
+var userRadars=[];
+
+$.getJSON('/userRadars.json', function(data) {
+	$.each(data.radars, function(i, f) {
+	userRadars.push(f);
+	});
+//console.log(userRadars);
+for (var i = 0; i < userRadars.length; i++) {
+var opt = userRadars[i].Type;
+var el = document.createElement("option");
+el.textContent = opt;
+el.value = opt;
+select.appendChild(el);
+};
+	
+	
+	
+});
+
+</script>
+	
+	
+	
+	
+</html>
