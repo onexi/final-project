@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>  
+    <script src="./WeatherDatajson/us_states_stations.json"></script>
+    <script src="./FlightDatajson/2010.json"></script>
+    <script src="./FlightDatajson/2011.json"></script>
+    <script src="./FlightDatajson/2012.json"></script>
+    <script src="./FlightDatajson/2013.json"></script>
+    <script src="./FlightDatajson/2014.json"></script>
+    <script src="./FlightDatajson/2015.json"></script>
+    <script src="./FlightDatajson/2016.json"></script>
+    <script src="./FlightDatajson/AirportCoods.json"></script>
+    <script src="./FlightDatajson/AirportPlot.json"></script>
+    <script src="./WeatherDatajson/CombinedWeatherStations.json"></script>
+    <script src="./WeatherDatajson/WeatherStations.json"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA9KY3MsC8lH_Y4j6y_MfdMSnYrrwbqEOg&callback=initMap"></script>
+    <script src="DrawFlightDelayBubbles.js"></script>
+    <script src="DrawWeatherOverlay.js"></script>
+    <script src="LinearRegression.js"></script>
+    <script src="./WeatherDatajson/coords.js" type="text/javascript"></script>
+      
+    <style>
+
+        #floating-panel {
+        position: absolute;
+        top: 500px;
+        left: 0%;
+        z-index: 5;
+        background-color:'blue';
+        padding: 1px;
+        border: 0px solid #999;
+        text-align: center;
+        font-family: 'Roboto','sans-serif';
+        line-height: 10px;
+        padding-left: 10px;
+        }
+
+       #map {
+        height: 500px;
+        width: 100%;
+        z-index: 1;
+       }
+       #leftCol {
+        position: fixed;
+        width: 60%;
+        background-color:'blue'; 
+        overflow-y: scroll;
+        }
+        #rightCol {
+            position: relative;            
+            margin-left: 63%;
+            background-color:'green'; 
+            overflow-y: scroll;
+        }
+      
+        #wrapper { position: relative; }
+        #over_map { position: absolute; top: 10px; left: 10px; z-index: 99; }
+
+    </style>   
+  </head>
+
+  <body>
+    <div id="leftCol">
+    <h2>1) Visualize Flight Delays & Weather Information</h2>
+    <p id="Date Display"></p>
+    <div id="map"></div>
+
+    <div id ="floating-panel">
+         Temperature scale <p>
+        <img src="temperature_scale.jpg" alt="Temperature Scalew" style="width:240px;height:50px;">
+    </div>
+    <p>
+    <h2>3) Flight Delay Prediction </h2>
+    <input type="text" id="Input_wind"=> Estimated Wind Speed (km/h)     </input><p>
+    <input type="text" id="Input_snow"=>  Estimated Snow Depth (cm)     </input> <p>
+    <button onclick="GeneratePrediction()">Submit</button>
+    <p>
+    <h3>Predicted Delay:  <p>
+    
+    <p id="Prediction"></p>  
+    </h3> 
+    <p><p><p><p><p>
+    </div>
+
+    <div id="rightCol">
+    <h2>2) Data Analytics </h2>
+    <div id="chart_temp" style="width: 700px; height: 250px;"></div>
+    <div id="chart_snow" style="width: 700px; height: 250px;"></div>
+    <div id="chart_pricp" style="width: 700px; height: 250px;"></div>
+    <div id="chart_wind" style="width: 700px; height: 250px;"></div>
+    </div>
+
+<script>
+    // States polygon coordinates source: https://github.com/lcheewei/google-maps-us-states-polygons
+    function createPolygonWithLabel(map, label, points) {
+        var polygon = new google.maps.Polygon({
+            fillColor: '#3eff00',
+            fillOpacity: 0.2,
+            map: map,
+            paths: points,
+            strokeOpacity: 0.5,
+            strokeWeight: 1,
+            state:label,
+            zIndex: 1
+        });
+        StatePolygons.push(polygon);
+        return polygon;
+    }
+    // Initialize Google maps, state polygons, and airport coordinates
+    function initMap() {
+        var usa = {lat: 37.0902, lng: -95.712891};
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 4,
+            center: usa
+        }); 
+        for (var i = 0; i < stateCoords.length; i++) {
+            var coords = [],
+            state = stateCoords[i][0],
+            points = stateCoords[i][1];
+            for (j = 0; j < points.length; j++) {
+                coords.push(new google.maps.LatLng(points[j][0], points[j][1]))
+            }
+            createPolygonWithLabel(map, state, coords);
+        }
+        for (var AP in airports) {
+            var location = {lat: airports[AP].lat, lng: airports[AP].long};
+            var APCircle = new google.maps.Circle({
+                strokeColor: '#FF0000',
+                strokeOpacity: 0.8,
+                strokeWeight: 0.3,
+                fillColor: '#FF0000',
+                fillOpacity: 0.7,
+                map: map,
+                center: location,
+                radius: 50000,
+                zIndex: 10
+            });
+            AirportCircles.push(APCircle);
+        }    
+     AnimateAirports();  // Call function to update map
+    }
+
+    
+    </script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChartT);
+      google.charts.setOnLoadCallback(drawChartS);
+      google.charts.setOnLoadCallback(drawChartP);
+      google.charts.setOnLoadCallback(drawChartW);
+
+      // Draw Temperature Chart
+      function drawChartT() {
+        var dataTemp = google.visualization.arrayToDataTable([
+          ['Ave Temp(Min)', 'Flight Delay', ],
+          [60, 0],
+          ]);
+        var TempMin = RetrieveData ('Temp');
+        dataTemp.addRows(TempMin); 
+
+        var options_T = {
+          title: 'Flight Delay vs Ave Temp (Min) Regression Chart',
+          hAxis: {title: 'Ave Temp (Min)', minValue: 0, maxValue: 10},
+          vAxis: {title: 'Flight Delay', minValue: 0, maxValue: 2},
+          chartArea: {width:'50%'},
+          trendlines: {0: {
+                type: 'exponential',
+                showR2: true,
+                visibleInLegend: true,
+          } }
+        };
+        var chartT = new google.visualization.ScatterChart(document.getElementById('chart_temp'));
+        chartT.draw(dataTemp, options_T);
+      }
+
+      // Draw Snow Chart
+      function drawChartS() {
+        var dataSnow = google.visualization.arrayToDataTable([
+          [ 'Snow', 'Flight Delay'],
+          [0, 0],
+          ]);
+        var Snow = RetrieveData ('Snow');
+        dataSnow.addRows(Snow); 
+        var options_S = {
+          title: 'Flight Delay vs Snow Regression Chart',
+          hAxis: {title: 'Snowfall', minValue: 0, maxValue: 2},
+          vAxis: {title: 'Flight Delay', minValue: 0, maxValue: 2},
+          chartArea: {width:'50%'},
+          trendlines: {0: {
+            type: 'exponential',
+            showR2: true,
+            visibleInLegend: true,
+          }}
+        };
+        var chartS = new google.visualization.ScatterChart(document.getElementById('chart_snow'));
+        chartS.draw(dataSnow, options_S);
+      }
+      // Draw Precipitation Chart
+      function drawChartP() {
+        var dataPrecp = google.visualization.arrayToDataTable([
+          ['Precipitation', 'Flight Delay'],
+          [0, 22],
+          ]);
+        var Precp = RetrieveData ('Precp');
+        dataPrecp.addRows(Precp); 
+        var options_P = {
+          title: 'Flight Delay vs Precipitation Regression Chart',
+          hAxis: {title: 'Precipitation', minValue: 0, maxValue: 0.6},
+          vAxis: {title: 'Flight Delay', minValue: 0, maxValue: 5},
+          chartArea: {width:'50%'},
+          trendlines: {0: {
+            type: 'exponential',
+            showR2: true,
+            visibleInLegend: true,
+           }}
+        };
+        var chartP = new google.visualization.ScatterChart(document.getElementById('chart_pricp'));
+        chartP.draw(dataPrecp, options_P);
+      }
+      // Draw Windspeed Chart
+      function drawChartW() {
+        var dataWind = google.visualization.arrayToDataTable([
+          ['Wind', 'Flight Delay'],
+          [0, 0],
+          ]);
+        var Wind = RetrieveData ('Wind');
+        dataWind.addRows(Wind); 
+        var options_W = {
+          title: 'Flight Delay vs Wind Speed Regression Chart',
+          hAxis: {title: 'Wind Speed', minValue: 0, maxValue: 10},
+          vAxis: {title: 'Flight Delay', minValue: 0, maxValue: 2},
+          chartArea: {width:'50%'},
+          trendlines: {0: {
+            type: 'exponential',
+            showR2: true,
+            visibleInLegend: true,
+        }}
+        };
+        var chartW = new google.visualization.ScatterChart(document.getElementById('chart_wind'));
+        chartW.draw(dataWind, options_W);
+      }
+
+    // Updates charts every second  
+    redraw();
+    function redraw() {
+        google.charts.setOnLoadCallback(drawChartT);
+        google.charts.setOnLoadCallback(drawChartS);
+        google.charts.setOnLoadCallback(drawChartP);
+        google.charts.setOnLoadCallback(drawChartW);
+        setTimeout(redraw, 1000);
+     };
+
+    </script>
+    
+  </body>
+</html>
