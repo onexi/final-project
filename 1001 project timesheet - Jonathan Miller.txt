@@ -1,0 +1,76 @@
+1.001 Project Timesheet
+By: Jonathan Miller
+Project: Angel Eye
+
+
+2017-04-13
+4-7pm = 3 hours. Problem research
+
+2017-04-14
+12-3pm = 3 hours. Problem research
+
+2017-04-17
+2-4pm = 2 hours. Review DSRC message set
+
+2017-04-18
+12-2pm = 2 hours. Visualization and scope
+
+2017-04-19
+7-8:30am = 1.5 hours. Presentation
+>>Deliverable #0 submitted. 
+Total hours to prepare this deliverable = 11.5 hours
+------------------------------------------------------------
+
+2017-04-21
+7-9:30am = 2.5 hours. Acquire materials
+5-6pm = 1 hours. Define upstream data expectations with partners
+
+2017-04-22
+11am-1pm = 2 hours. Arduino coding
+
+2017-04-24
+9:30-11:30 am = 2 hours. Arduino work
+7:30-9:30 pm = 2 hours. Tessel development
+
+2017-04-26
+6:30-9:00am = 2.5 hours. Tessel and presentation prep. 
+>>Deliverable #1 submitted
+Total hours to prepare this deliverable = 11 hours
+------------------------------------------------------------
+
+2017-04-29
+7-9pm = 2.0 hours. Tessel development.
+
+2017-04-30 
+9am-12:30pm = 3.5 hours. Get familiar with servo and set up calibration 'jig'.
+1:00-9pm = 8 hours. Calibrate servo, develop JS+python single-dimension interpolator.
+
+2017-05-01
+9:30-11am = 1.5 hours. Start MQTT development.
+
+2017-05-02
+8-10:30pm = 2.5 hours. 2-axis servo testing on Tessel.
+
+2017-05-03
+7-9am = 2 hours. Presentation prep.
+>>Deliverable #2 submitted
+Total hours to prepare this deliverable = 19.5 hours
+------------------------------------------------------------
+
+2017-05-06
+3-10pm = 7 hours. Devised projector calibration grid. Built dual-axis servos. Developed independent controls for each servo axis. Mounted system. Performed calibrations between turret and grid.
+
+2017-05-07
+4-6pm = 2 hours. Worked with turret but having trouble getting control of second axis. Wiring is a problem.
+
+2017-05-08
+6-10pm = 4 hours. Pursued numerous (failed) attempts at translating from projected grid to 2-axis control parameters. Research uncovered that I’m attempting to perform something like multivariate interpolation on structured, unspaced data. Developed a computational cheap (and a little inaccurate) hack for interpolating anywhere along two axes.
+
+2017-05-09
+6-8am = 2 hours. Organized repository. Revised notes.
+
+7-11m = 5.0 hours. Documented project and code. Prepared materials for submission.
+
+6-9am = 4.0 hours. Produced final deliverable video. Prepared in-class demo.
+>>Deliverable #3 (FINAL) submitted
+Total hours to prepare this deliverable = 24.0 hours
