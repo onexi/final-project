@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>TingXie</title>
+</head>
+<body>
+    <div style="position: absolute; left: 50px; top: 0px; width: 950px; height: 100px; text-align: justify; font-size: 16px">
+        Welcome! You will practice writing Chinese characters while playing a game of Snakes and Ladders.</br></br>
+        Each turn, you will be given the Hanyu Pinyin and English meaning of a Chinese character. Write the Chinese character in the silver box below.
+        If you make a mistake, click 'Clear' to erase. Click 'Submit' to check your answer.</br></br>
+        If you are correct, you will get to roll the dice. The aim of the game is to move from the first square to the final square in as few turns as possible.
+        If you land at the bottom of a ladder, you will climb to the top. If you land on the head of a snake, you will slide down to its tail.</br></br>
+        When you are ready, click 'Start Game' to begin. Good luck!
+    </div>
+    <!-- snakes and ladders game -->
+    <canvas id="game" width="500" height="500"></canvas>
+    <script src="game.js"></script>
+    <button id="roll" onclick="nextMove()" style="display: none; position: absolute; left: 500px; top: 700px; width: 100px; font-size: 20px">Roll Dice</button>
+    <div style="position: absolute; left: 600px; top: 700px; width: 100px; text-align: right; font-size: 18px">Dice Roll:</div>
+    <div id="dice" style="position: absolute; left: 700px; top: 700px; width: 100px; height: 100px; text-align: center; vertical-align: middle; line-height: 100px; font-size: 50px"></div>
+    <div style="position: absolute; left: 800px; top: 700px; width: 100px; text-align: right; font-size: 18px">No. of Turns:</div>
+    <div id="turns" style="position: absolute; left: 900px; top: 700px; width: 100px; height: 100px; text-align: center; vertical-align: middle; line-height: 100px; font-size: 50px"></div>
+    <!-- generate Chinese character from list at random -->
+    <div id="hanyu" style="position: absolute; left: 150px; top: 600px; width: 200px; text-align: center; font-size: 24px"></div>
+    <div id="english" style="position: absolute; left: 150px; top: 640px; width: 200px; text-align: center; font-size: 24px"></div>
+    <script src="words.js"></script>
+    <button onclick="startGame()" style="position: absolute; left: 500px; top: 150px; width: 200px; font-size: 20px">Start Game</button>
+    <!-- drawing board -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="drawingboard.js"></script>
+    <div id="draw"></div>
+    <style>
+        #draw {
+            position: absolute;
+            left: 50px;
+            top: 200px;
+            width: 400px;
+            height: 400px;     
+        }
+    </style>
+    <!-- processing the drawing board image -->
+    <script src="run.js"></script>
+    <div style="position: absolute; left: 50px; top: 680px; width: 150px; text-align: left; font-size: 16px">Your Submission:</div>
+    <canvas id="imageSub" width="70" height="70" style="position: absolute; left: 50px; top: 700px; border: 1px solid black"></canvas>
+    <div style="position: absolute; left: 300px; top: 680px; width: 150px; text-align: right; font-size: 16px">Correct Answer:</div>
+    <canvas id="imageCor" width="70" height="70" style="position: absolute; left: 380px; top: 700px; border: 1px solid black"></canvas>
+    <div id="imageCorStore" style="display: none"></div>
+    <canvas id="drawStore" width="400" height="400" style="display: none"></canvas>
+    <button onclick="submitAnswer()" style="position: absolute; left: 350px; top: 600px; width: 100px; font-size: 20px">Submit</button>
+</body>
+</html>
