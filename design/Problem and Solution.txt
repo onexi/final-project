@@ -1,0 +1,36 @@
+1.001 Project
+[Design] Problem and Solution
+By: Jonathan Miller
+Project: Angel Eye
+
+PROBLEM I AM SOLVING
+====================
+
+High-level problem: Road intersections are dangerous, in part because cars, trucks, bicycles, and pedestrians are all in close proximity. If we have a camera and object identification system in place to watch the intersection, how can we output information to users of the road?
+
+Low-level problem: To demonstrate an example of 'output information', can a controllable laser turret be built?
+
+Solution Approach: The turret must operate on two axes (horizontal and vertical) and is to have a laser mounted on top to indicate its position.
+
+The code is organized into the following directories:
+
+    arduino/            -> script used for testing a servo's movements.
+    blinky/             -> test routine for validating control of the Tessel board
+    servo/
+        dual_axis/      -> calibration and control scripts for the two-axis turret
+        single_axis/    -> calibration and control scripts for a solo servo
+
+
+COMPARABLES USED FOR REFERENCE
+==============================
+
+"Autonomous Sentry Turret" <http://www.instructables.com/id/Autonomous-Sentry-Turret/>
+Good: Sophisticated and nicely crafted
+Not so Good: Way more involved than what I wanted to accomplish as a first-timer hardware project. 
+
+"Pew Pew How to Biuld A Laser Turret With An Arduino" <http://www.makeuseof.com/tag/pew-pew-how-to-build-a-laser-turret-with-an-arduino/>
+Good: Attractive demo
+Not so good: Movements are random. I want my turrent to move only under control.
+
+I had trouble locating meaningful reference projects for the Python interpolation / map projection component of my project. If I could have found at least one project written for a non-professional audience, I anticipate things would have been much easier!
+
