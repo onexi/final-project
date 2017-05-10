@@ -3,7 +3,11 @@
 By: Jonathan Miller
 Project: Angel Eye
 
-    Deliverable 0\
-    Deliverable 1\
-    Deliverable 2\
-    Deliverable 3\
+    deliverables/		=> PDFs of slides
+    design diagrams/	=> PDFs of diagrams I produced to scope my project
+    DSRC/				=> "DSRC" = "Dedicated Short Range Communications". Contains one sample message set I identified during researching this project
+    grid/				=> A widescreen coordinate system I made to calibrate the laser turret
+    servo-dual/			=> Contains media documenting with the 2-axis gimbal 
+    servo-single/		=> Contains media documenting the single-axis servo
+
+
