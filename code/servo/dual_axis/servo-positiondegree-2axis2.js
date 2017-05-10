@@ -41,6 +41,4 @@ servo.on('ready', function () {
 			servo.move(servoY, positionY);
 		}, 1000); //500 milliseconds
 	});
-
-	
 });
