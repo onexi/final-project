@@ -1,0 +1,19 @@
+{
+  "name": "yhsui",
+  "version": "1.0.0",
+  "description": "request",
+  "main": "exercise.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "request": "^2.80.0",
+    "shelljs": "^0.7.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "",
+  "license": "MIT"
+}

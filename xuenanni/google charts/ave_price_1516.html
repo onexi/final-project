@@ -1,0 +1,38 @@
+  <html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Year/Date', 'Cambridge','Somerville'],
+          ['2015-First Season', 1916.14,  800.83],
+          ['2015-Second Season', 1914.64, 1205.47],
+          ['2015-Third Season', 1748.72,1182.58],
+          ['2015-Fourth Season', 1657.67, 1206.61],
+          ['2016-First Season', 1716.09, 1250.55],
+          ['2016-Second Season', 1712.35, 1258.93] 
+        ]);
+
+        var options = {
+            'title': 'Renting Prices in Cambridge and Somervilles 2015-2016',
+            width: 800,
+            height:500,
+            'subtitle': '2015-2016',
+            colors:['#76A7FA','gold'],
+            bar: {groupWidth: "95%"} // Required for Material Bar Charts.
+
+        };
+
+        var chart = new google.visualization.BarChart(document.getElementById('barchart_material'));
+
+        chart.draw(data, options);
+      }
+    </script>
+  </head>
+  <body>
+    <div id="barchart_material" style="width: 900px; height: 500px;"></div>
+  </body>
+</html>-->
