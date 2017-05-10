@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link href="https://fonts.googleapis.com/css?family=Archivo+Black|Bowlby+One|Bowlby+One+SC|Droid+Serif:400,400i|Lora|Montserrat" rel="stylesheet">
+
+    <title>HouseMatters</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/scrolling-nav.css" rel="stylesheet">
+    <link href="housematters.css" rel="stylesheet">
+    
+    <!--chart 1 script-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Year/Date', 'Cambridge','Somerville'],
+          ['2015-First Season', 1916.14,  800.83],
+          ['2015-Second Season', 1914.64, 1205.47],
+          ['2015-Third Season', 1748.72,1182.58],
+          ['2015-Fourth Season', 1657.67, 1206.61],
+          ['2016-First Season', 1716.09, 1250.55],
+          ['2016-Second Season', 1712.35, 1258.93] 
+        ]);
+
+        var options = {
+            'title': 'Renting Prices in Cambridge and Somervilles 2015-2016',
+            width: 900,
+            height:500,
+            'subtitle': '2015-2016',
+            colors:['#76A7FA','orange'],
+            backgroundColor:'white',
+            chartArea:{left:350},
+            bar: {groupWidth: "95%"} // Required for Material Bar Charts.
+        };
+
+        var chart = new google.visualization.BarChart(document.getElementById('barchart_material1'));
+        chart.draw(data, options);
+      }
+    </script>
+    
+    <!--chart 2 script-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Bedroom Type', 'Bedroom Count'],
+          ['1B', 1330],
+          ['2B', 1225],
+          ['3B', 942],
+          ['4B', 598],
+          ['5B', 127],
+          ['6B', 50], 
+          ['7B', 7], 
+          ['8B', 8] 
+        ]);
+
+        var options = {
+            'title': 'Number of Posts by Type at around April/2017',
+            width: 950,
+            height:500,
+            'subtitle': '2015-2016',
+            colors:['#f25643'],
+            backgroundColor:'white',
+            chartArea:{left:200},
+            bar: {groupWidth: "95%"} // Required for Material Bar Charts.
+        };
+        var chart = new google.visualization.BarChart(document.getElementById('barchart_material2'));
+        chart.draw(data, options);
+      }
+    </script>
+
+    <!--word cloud script-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Key Words', 'Count'],
+          ['month',6140],
+          ['broker', 3336],
+          ['pet', 1596],
+          ['hot', 1368],
+          ['water', 1177],
+          ['parking', 862], 
+          ['laundry', 842], 
+          ['kitchen', 722],
+          ['cat', 826],
+          ['walk', 663],
+          ['central', 601],
+          ['harvard', 592],
+          ['davis', 545],
+          ['negotiable', 514],
+          ['modern', 405],
+          ['heat', 376],
+          ['spacious', 188],
+          ['amazing', 125],
+          ['bicycle', 121],
+          ['furnished', 118],
+          ['luxury', 112],
+          ['kendall', 111],
+          ['red', 110],
+          ['dog', 91],
+          ['t', 79],
+          ['school', 46],
+          ['gym', 20]
+    ]);
+
+        var options = {
+            'title': 'Word Count (interesting ones) in Posting Descriptions',
+            width: 1000,
+            height:850,
+            'subtitle': '2015-2016',
+            colors:['#91ca76'],
+            backgroundColor:'transparent',
+            chartArea:{left:250},
+            margin:{top:0},
+            vAxis : {textStyle : {fontSize: 14}}
+          //  bar: {groupWidth: "95%"} // Required for Material Bar Charts.
+        };
+        var chart = new google.visualization.BarChart(document.getElementById('barchart_material3'));
+        chart.draw(data, options);
+      }
+    </script>
+</head>
+
+<!-- The #page-top ID is part of the scrolling feature - the data-spy and data-target are part of the built-in Bootstrap scrollspy function -->
+
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top" style="text-transform: uppercase;">HouseMatters</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                    <li class="hidden">
+                        <a class="page-scroll" href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#map" style="font-family:Arial, Helvetica, sans-serif;text-transform: uppercase;">Rental price</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#nhbd" style="font-family:Arial, Helvetica, sans-serif;text-transform: uppercase;">housing count</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#room" style="font-family:Arial, Helvetica, sans-serif;text-transform: uppercase;">room type</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#count" style="font-family:Arial, Helvetica, sans-serif;text-transform: uppercase;">Word cloud</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#history" style="font-family:Arial, Helvetica, sans-serif;text-transform: uppercase;">history overview</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#about" style="font-family:Arial, Helvetica, sans-serif;text-transform: uppercase;">team</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#contact" style="font-family:Arial, Helvetica, sans-serif;text-transform: uppercase;">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Intro Section -->
+    <section id="intro" class="intro-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 style="font-family:'Archivo Black', sans-serif;font-size:85px;margin-top:17%;color:#333;font-weight:50;letter-spacing:5px;line-height:1.5;"><b>HOUSEMATTERS</b></h1>   
+                    <p style="font-size:18px;font-family:'Lora',serif;color:#333;line-height:1.5;" align = "center">Focus on recent rental price, room type and keyword analysis along with history data analysis</p>
+                    <p style="font-size:15px;font-family:'Lora',serif;color:#333;margin-top:20px;" align = "center">Data Source(April 2017): Boston.Craigslist.org</p>
+                    <p style="font-size:15px;font-family:'Lora',serif;color:#333;" align = "center">MAPC Craigslist Data(2015-2016) provided by Prof. Joseph Ferreira</p>            
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map1 Section -->
+    <section id="map" class="map-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                   <h1 style="font-family:'Montserrat',sans-serif;text-transform:uppercase;font-size:45px;font-weight:800;margin-bottom:30px;text-align:center;letter-spacing:2px"><b>rental price analysis</b></h1>
+                   <p style="font-size:18px;font-family:'Lora',serif;color:#333;margin-bottom:15px;margin-top:30px;" align="center">Visualization and analysis of rental price on individual level, on neighborhood level and within/outside the MBTA buffer</p>
+                    <h2 style="font-family:'Montserrat',sans-serif;font-size:25px;margin-bottom:20px;margin-top:30px;color:#333;text-transform:uppercase;letter-spacing: 3px;"><b>Price of Rental Unit Analysis</b></h2>
+                        <iframe width="100%" height="650" frameborder="0" 
+                        /src="https://yilingxie.carto.com/viz/17a9fedc-338d-11e7-a1d5-0ee66e2c9693/embed_map"
+                        /allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen>
+                        </iframe>
+                        <p style="font-family:'Lora',serif;margin-top:5px;font-size:18px;text-align:left;line-height:2;margin-top:20px;" align="center">We plotted individual rental units on map and categorized price with different colors (lighter color means lower price and darker color means higher price). You may zoom in to see how units of different prices distribute in one neighborhood.</p>
+                </div>
+            </div>
+        </div>
+
+    <!-- Map3 Section -->
+    <!--<section id="map" class="map-section">-->
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 style="font-family:'Montserrat',sans-serif;font-size:25px;margin-bottom:20px;color:#333;text-transform: uppercase;letter-spacing: 3px;"><b>Price of Neighborhood Analysis</b></h2>
+                        <iframe width="100%" height="650" frameborder="0" 
+                        /src="https://yilingxie.carto.com/viz/7e725c7e-3359-11e7-8a39-0e98b61680bf/embed_map" 
+                        /allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen>
+                        </iframe>
+                        <p style="font-family:'Lora',serif;margin-top:5px;font-size:18px;text-align:left;line-height:2;margin-top:20px;" align="center">We aggregated prices on neighborhood level and you may find the neighborhood that has highest/lowest average renting price. We acknowledge that the aggregated prices do not distinguish unit type, so the fact that larger houses has higher price may make the average price less effective showing price per person/per bedroom.</p>
+                </div>
+            </div>
+        </div>
+    <!--</section>-->
+
+    <!-- Map4 Section -->
+    <!--<section id="map" class="map-section">-->
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 style="font-family:'Montserrat',sans-serif;font-size:25px;margin-bottom:20px;color:#333;text-transform:uppercase;letter-spacing:3px;"><b>Rental price within/outside MBTA buffer</b></h2>
+                        <iframe width="100%" height="650" frameborder="0" 
+                        /src="https://yilingxie.carto.com/viz/5a99c0fe-d974-4f0d-af5a-c190cd826e46/embed_map" 
+                        /allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen>
+                        </iframe>
+                        <p style="font-family:'Lora',serif;margin-top:5px;font-size:18px;text-align:left;line-height:2;margin-top:20px;" align="center">We aggregated prices near MBTA stations within 500-meter-radius buffer and showed the average price on neighborhood level. But not all the neighborhood have post. You may find the highest rental price near Porter Square T station and the lowest price near Alewife T station.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- nhbd Section -->
+    <!-- Map2 Section -->
+    <section id="nhbd" class="nhbd-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                   <h1 style="font-family:'Montserrat',sans-serif;text-transform:uppercase;font-size:45px;font-weight:800;margin-bottom:30px;text-align:center;letter-spacing:2px"><b>Housing count analysis</b></h1>
+                   <p style="font-size:18px;font-family:'Lora',serif;color:#333;margin-bottom:15px;margin-top:30px;" align="center">Visualization and analysis of housing count on individual level and on neighborhood level</p>
+                    <h2 style="font-family:'Montserrat',sans-serif;font-size:25px;margin-bottom:20px;color:#333;text-transform: uppercase;letter-spacing: 3px;"><b>Housing clusters</b></h2>
+                        <iframe width="100%" height="650" frameborder="0" 
+                        /src="https://yilingxie.carto.com/viz/2a00371c-3389-11e7-8973-0e3a376473ab/embed_map"
+                        /allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen>
+                        </iframe>
+                        <p style="font-family:'Lora',serif;margin-top:5px;font-size:18px;text-align:left;line-height:2;margin-top:20px;" align="center">Here is the map showing how available houses/units cluster. You may expect to find lots of posts if the circle is bigger, together with a large number indicating the exact number of posts in the area.</p>
+                </div>
+            </div>
+        </div>
+    <!--</section>-->
+
+    <!-- Map5 Section -->
+    <!--<section id="map" class="map-section">-->
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 style="font-family:'Montserrat',sans-serif;font-size:25px;margin-bottom:20px;color:#333;text-transform: uppercase;letter-spacing: 3px;"><b>Neighborhood count</b></h2>
+                        <iframe width="100%" height="650" frameborder="0" 
+                        /src="https://yilingxie.carto.com/viz/30f0fd7a-335e-11e7-a40a-0ee66e2c9693/embed_map" 
+                        /allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen>
+                        </iframe>
+                        <p style="font-family:'Lora',serif;margin-top:5px;font-size:18px;text-align:left;line-height:2;margin-top:20px;" align="center">This map shows the count of posts in each neighborhood in Cambridge and Somerville. We can tell that East Cambridge, WInter Hill, Davis Square, Union Square are some popular neighborhoods that have most posts.</p>
+                </div>
+            </div>
+        </div>
+    <!--</section>-->
+    </section>
+
+    <!-- Room type Section -->
+    <section id="room" class="room-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                  <h1 style="font-family:'Montserrat',sans-serif;text-transform:uppercase;font-size:45px;font-weight:800;margin-bottom:30px;text-align:center;letter-spacing:2px"><b>room type analysis</b></h1>
+                   <p style="font-size:18px;font-family:'Lora',serif;color:#333;margin-bottom:15px;margin-top:30px;" align="center">Visualized the spatial distribution of houses/units and summarized the count of unit type by the number of bedrooms </p>
+                  <h2 style="font-family:'Montserrat',sans-serif;font-size:25px;margin-bottom:20px;color:#333;text-transform: uppercase;letter-spacing: 3px;"><b>Room Type Analysis</b></h2>
+                     <iframe width="100%" height="650" frameborder="0" 
+                     /src="https://yilingxie.carto.com/viz/cae10840-347f-11e7-87b8-0ef7f98ade21/embed_map" 
+                     /allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen>
+                     </iframe>
+                     <p style="font-family:'Lora',serif;margin-top:5px;font-size:18px;text-align:left;line-height:2;margin-top:20px;" align="center">This map shows the spatial distribution of houses/units, differentiated by the number of bedrooms. Our idea is to differentiate rooms that can accommodate different number of people. In this case, we combine studio and one bedroom type to 1B. We can tell that the most popular room type is 1B, and the more the bedrooms are, the less available units are.</p>
+                    <h2 style="font-family:'Montserrat',sans-serif;font-size:25px;margin-top:50px;color:#333;text-transform: uppercase;letter-spacing: 3px;"><b>Type Summary</b></h2>
+                        <div id="barchart_material2" style="width: 1000px; height: 480px;align-items: center;margin-bottom:10px;" align="center"></div>
+                        <p style="font-family:'Lora',serif;margin-top:5px;font-size:18px;text-align:left;line-height:2;" align="center">We summarized the count of unit type by the number of bedrooms. What offered most is 1 Bedroom, where it could be studio, 1B1B, 1B2B, etc. The more bedrooms in the apartment are available, the less offerings exist. But there are still offerings for 7 bedrooms and 8 bedrooms—if you have a big family or wish to live with many friends, you do not want to miss those!</p>
+                        </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Counts Section -->
+    <section id="count" class="count-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                   <h1 style="font-family:'Montserrat',sans-serif;text-transform:uppercase;font-size:45px;font-weight:800;margin-bottom:30px;text-align:center;letter-spacing:2px"><b>word cloud</b></h1>
+                   <p style="font-size:18px;font-family:'Lora',serif;color:#333;margin-bottom:15px;margin-top:30px;" align="center">Extracted keywords from the description section, displayed the most frequent words with which landlords advertise their housing</p>
+                   <h2 style="font-family:'Montserrat',sans-serif;font-size:25px;margin-bottom:20px;color:#333;text-transform: uppercase"><b>Word Cloud</b></h2>
+                        <svg width="960" height="600" version="1.1" xmlns="http://www.w3.org/2000/svg"><g></g><g transform="translate(480,300)scale(1.0101009607315063,1.0101009607315063)"><text text-anchor="middle" transform="translate(147,50)rotate(29.999999999999993)" style="font-size: 99px; font-family: Impact; fill: rgb(156, 158, 222);">month</text><text text-anchor="middle" transform="translate(-187,-125)rotate(59.99999999999999)" style="font-size: 86px; font-family: Impact; fill: rgb(99, 121, 57);">broker</text><text text-anchor="middle" transform="translate(129,-130)rotate(0)" style="font-size: 71px; font-family: Impact; fill: rgb(140, 162, 82);">apartment</text><text text-anchor="middle" transform="translate(-146,82)rotate(59.99999999999999)" style="font-size: 71px; font-family: Impact; fill: rgb(181, 207, 107);">rent</text><text text-anchor="middle" transform="translate(-57,39)rotate(-29.999999999999993)" style="font-size: 70px; font-family: Impact; fill: rgb(206, 219, 156);">pet</text><text text-anchor="middle" transform="translate(-245,-8)" style="font-size: 69px; font-family: Impact; fill: rgb(140, 109, 49);">square</text><text text-anchor="middle" transform="translate(5,-60)rotate(29.999999999999993)" style="font-size: 67px; font-family: Impact; fill: rgb(189, 158, 57);">hot</text><text text-anchor="middle" transform="translate(125,-54)rotate(29.999999999999993)" style="font-size: 63px; font-family: Impact; fill: rgb(231, 186, 82);">water</text><text text-anchor="middle" transform="translate(78,140)rotate(0)" style="font-size: 63px; font-family: Impact; fill: rgb(231, 203, 148);">hardwood</text><text text-anchor="middle" transform="translate(280,-23)rotate(29.999999999999993)" style="font-size: 62px; font-family: Impact; fill: rgb(132, 60, 57);">cambridge</text><text text-anchor="middle" transform="translate(-120,-164)rotate(59.99999999999999)" style="font-size: 60px; font-family: Impact; fill: rgb(173, 73, 74);">bedroom</text><text text-anchor="middle" transform="translate(203,-185)rotate(0)" style="font-size: 58px; font-family: Impact; fill: rgb(214, 97, 107);">rental</text><text text-anchor="middle" transform="translate(85,73)rotate(29.999999999999993)" style="font-size: 57px; font-family: Impact; fill: rgb(231, 150, 156);">full</text><text text-anchor="middle" transform="translate(-297,-121)rotate(29.999999999999993)" style="font-size: 57px; font-family: Impact; fill: rgb(123, 65, 115);">somerville</text><text text-anchor="middle" transform="translate(-197,136)rotate(29.999999999999993)" style="font-size: 57px; font-family: Impact; fill: rgb(165, 81, 148);">parking</text><text text-anchor="middle" transform="translate(-304,80)rotate(-29.999999999999993)" style="font-size: 56px; font-family: Impact; fill: rgb(206, 109, 189);">laundry</text><text text-anchor="middle" transform="translate(316,123)rotate(-59.99999999999999)" style="font-size: 53px; font-family: Impact; fill: rgb(222, 158, 214);">kitchen</text><text text-anchor="middle" transform="translate(-18,86)rotate(0)" style="font-size: 52px; font-family: Impact; fill: rgb(57, 59, 121);">bath</text><text text-anchor="middle" transform="translate(93,190)rotate(-59.99999999999999)" style="font-size: 52px; font-family: Impact; fill: rgb(82, 84, 163);">cat</text><text text-anchor="middle" transform="translate(-337,-77)rotate(-59.99999999999999)" style="font-size: 51px; font-family: Impact; fill: rgb(107, 110, 207);">walk</text><text text-anchor="middle" transform="translate(333,-60)rotate(29.999999999999993)" style="font-size: 49px; font-family: Impact; fill: rgb(99, 121, 57);">central</text><text text-anchor="middle" transform="translate(-2,-220)rotate(29.999999999999993)" style="font-size: 49px; font-family: Impact; fill: rgb(156, 158, 222);">friendly</text><text text-anchor="middle" transform="translate(-255,154)rotate(29.999999999999993)" style="font-size: 48px; font-family: Impact; fill: rgb(99, 121, 57);">harvard</text><text text-anchor="middle" transform="translate(-21,-23)rotate(29.999999999999993)" style="font-size: 46px; font-family: Impact; fill: rgb(140, 162, 82);">davis</text><text text-anchor="middle" transform="translate(338,195)rotate(-29.999999999999993)" style="font-size: 45px; font-family: Impact; fill: rgb(181, 207, 107);">negotiable</text><text text-anchor="middle" transform="translate(5,188)rotate(-29.999999999999993)" style="font-size: 40px; font-family: Impact; fill: rgb(140, 109, 49);">bed</text><text text-anchor="middle" transform="translate(-92,217)rotate(0)" style="font-size: 40px; font-family: Impact; fill: rgb(189, 158, 57);">granite</text><text text-anchor="middle" transform="translate(165,206)rotate(29.999999999999993)" style="font-size: 40px; font-family: Impact; fill: rgb(231, 186, 82);">modern</text><text text-anchor="middle" transform="translate(-79,-207)rotate(59.99999999999999)" style="font-size: 39px; font-family: Impact; fill: rgb(231, 203, 148);">studio</text><text text-anchor="middle" transform="translate(348,-182)rotate(-59.99999999999999)" style="font-size: 39px; font-family: Impact; fill: rgb(132, 60, 57);">summary</text><text text-anchor="middle" transform="translate(-275,-182)rotate(0)" style="font-size: 39px; font-family: Impact; fill: rgb(173, 73, 74);">new</text><text text-anchor="middle" transform="translate(-337,49)rotate(-29.999999999999993)" style="font-size: 39px; font-family: Impact; fill: rgb(214, 97, 107);">heat</text><text text-anchor="middle" transform="translate(11,33)rotate(29.999999999999993)" style="font-size: 38px; font-family: Impact; fill: rgb(231, 150, 156);">call</text><text text-anchor="middle" transform="translate(238,4)rotate(29.999999999999993)" style="font-size: 37px; font-family: Impact; fill: rgb(165, 81, 148);">porter</text><text text-anchor="middle" transform="translate(-209,51)rotate(59.99999999999999)" style="font-size: 37px; font-family: Impact; fill: rgb(206, 109, 189);">floors</text><text text-anchor="middle" transform="translate(152,-240)rotate(-29.999999999999993)" style="font-size: 36px; font-family: Impact; fill: rgb(222, 158, 214);">stainless</text><text text-anchor="middle" transform="translate(-266,-56)" style="font-size: 34px; font-family: Impact; fill: rgb(57, 59, 121);">hill</text><text text-anchor="middle" transform="translate(407,-85)rotate(0)" style="font-size: 34px; font-family: Impact; fill: rgb(107, 110, 207);">great</text><text text-anchor="middle" transform="translate(-383,-98)rotate(-59.99999999999999)" style="font-size: 33px; font-family: Impact; fill: rgb(165, 81, 148);">large</text><text text-anchor="middle" transform="translate(376,124)rotate(-29.999999999999993)" style="font-size: 32px; font-family: Impact; fill: rgb(156, 158, 222);">located</text><text text-anchor="middle" transform="translate(222,170)rotate(-59.99999999999999)" style="font-size: 32px; font-family: Impact; fill: rgb(99, 121, 57);">gas</text><text text-anchor="middle" transform="translate(-93,-14)rotate(-29.999999999999993)" style="font-size: 31px; font-family: Impact; fill: rgb(140, 162, 82);">living</text><text text-anchor="middle" transform="translate(23,216)rotate(59.99999999999999)" style="font-size: 30px; font-family: Impact; fill: rgb(181, 207, 107);">june</text><text text-anchor="middle" transform="translate(-384,-7)rotate(0)" style="font-size: 30px; font-family: Impact; fill: rgb(206, 219, 156);">half</text><text text-anchor="middle" transform="translate(96,-256)rotate(-59.99999999999999)" style="font-size: 29px; font-family: Impact; fill: rgb(140, 109, 49);">steel</text><text text-anchor="middle" transform="translate(-303,-238)rotate(-59.99999999999999)" style="font-size: 27px; font-family: Impact; fill: rgb(189, 158, 57);">ceramic</text><text text-anchor="middle" transform="translate(124,222)rotate(29.999999999999993)" style="font-size: 27px; font-family: Impact; fill: rgb(231, 186, 82);">dining</text><text text-anchor="middle" transform="translate(-219,223)rotate(59.99999999999999)" style="font-size: 27px; font-family: Impact; fill: rgb(231, 203, 148);">counter</text><text text-anchor="middle" transform="translate(-404,50)rotate(59.99999999999999)" style="font-size: 27px; font-family: Impact; fill: rgb(132, 60, 57);">room</text><text text-anchor="middle" transform="translate(-382,-222)rotate(0)" style="font-size: 26px; font-family: Impact; fill: rgb(173, 73, 74);">experts</text><text text-anchor="middle" transform="translate(-392,189)rotate(-59.99999999999999)" style="font-size: 26px; font-family: Impact; fill: rgb(214, 97, 107);">september</text><text text-anchor="middle" transform="translate(-41,161)rotate(0)" style="font-size: 26px; font-family: Impact; fill: rgb(82, 84, 163);">near</text><text text-anchor="middle" transform="translate(157,85)rotate(29.999999999999993)" style="font-size: 26px; font-family: Impact; fill: rgb(231, 150, 156);">high</text><text text-anchor="middle" transform="translate(-262,197)rotate(59.99999999999999)" style="font-size: 24px; font-family: Impact; fill: rgb(123, 65, 115);">spacious</text><text text-anchor="middle" transform="translate(-74,151)rotate(-59.99999999999999)" style="font-size: 24px; font-family: Impact; fill: rgb(165, 81, 148);">boston</text><text text-anchor="middle" transform="translate(11,-264)rotate(29.999999999999993)" style="font-size: 20px; font-family: Impact; fill: rgb(206, 109, 189);">location</text><text text-anchor="middle" transform="translate(-42,-127)rotate(59.99999999999999)" style="font-size: 20px; font-family: Impact; fill: rgb(222, 158, 214);">close</text><text text-anchor="middle" transform="translate(245,-112)rotate(0)" style="font-size: 18px; font-family: Impact; fill: rgb(57, 59, 121);">newly</text><text text-anchor="middle" transform="translate(-9,-185)rotate(-29.999999999999993)" style="font-size: 17px; font-family: Impact; fill: rgb(82, 84, 163);">east</text><text text-anchor="middle" transform="translate(-246,-245)rotate(-59.99999999999999)" style="font-size: 17px; font-family: Impact; fill: rgb(107, 110, 207);">beautiful</text><text text-anchor="middle" transform="translate(317,23)rotate(29.999999999999993)" style="font-size: 17px; font-family: Impact; fill: rgb(156, 158, 222);">office</text><text text-anchor="middle" transform="translate(148,-113)rotate(29.999999999999993)" style="font-size: 17px; font-family: Impact; fill: rgb(99, 121, 57);">eat</text><text text-anchor="middle" transform="translate(-64,231)rotate(0)" style="font-size: 15px; font-family: Impact; fill: rgb(140, 162, 82);">countertops</text><text text-anchor="middle" transform="translate(-98,-94)rotate(59.99999999999999)" style="font-size: 15px; font-family: Impact; fill: rgb(181, 207, 107);">cats</text><text text-anchor="middle" transform="translate(-179,13)rotate(29.999999999999993)" style="font-size: 13px; font-family: Impact; fill: rgb(206, 219, 156);">winter</text><text text-anchor="middle" transform="translate(44,-107)rotate(0)" style="font-size: 13px; font-family: Impact; fill: rgb(140, 109, 49);">amazing</text><text text-anchor="middle" transform="translate(307,-212)rotate(-29.999999999999993)" style="font-size: 13px; font-family: Impact; fill: rgb(189, 158, 57);">furnished</text><text text-anchor="middle" transform="translate(-219,-153)rotate(59.99999999999999)" style="font-size: 13px; font-family: Impact; fill: rgb(231, 186, 82);">galley</text><text text-anchor="middle" transform="translate(99,-189)rotate(-29.999999999999993)" style="font-size: 13px; font-family: Impact; fill: rgb(231, 203, 148);">realty</text><text text-anchor="middle" transform="translate(45,-281)rotate(0)" style="font-size: 13px; font-family: Impact; fill: rgb(132, 60, 57);">bedrooms</text><text text-anchor="middle" transform="translate(-289,-93)rotate(29.999999999999993)" style="font-size: 12px; font-family: Impact; fill: rgb(173, 73, 74);">brand</text><text text-anchor="middle" transform="translate(-235,-163)rotate(-59.99999999999999)" style="font-size: 12px; font-family: Impact; fill: rgb(214, 97, 107);">kendall</text><text text-anchor="middle" transform="translate(-19,40)rotate(0)" style="font-size: 12px; font-family: Impact; fill: rgb(231, 150, 156);">spring</text><text text-anchor="middle" transform="translate(50,68)rotate(-59.99999999999999)" style="font-size: 12px; font-family: Impact; fill: rgb(231, 186, 82);">text</text><text text-anchor="middle" transform="translate(292,39)rotate(59.99999999999999)" style="font-size: 12px; font-family: Impact; fill: rgb(123, 65, 115);">luxury</text><text text-anchor="middle" transform="translate(-305,-67)rotate(-59.99999999999999)" style="font-size: 12px; font-family: Impact; fill: rgb(165, 81, 148);">quartz</text><text text-anchor="middle" transform="translate(-153,8)rotate(0)" style="font-size: 12px; font-family: Impact; fill: rgb(206, 109, 189);">red</text><text text-anchor="middle" transform="translate(-92,135)rotate(-59.99999999999999)" style="font-size: 12px; font-family: Impact; fill: rgb(222, 158, 214);">nice</text><text text-anchor="middle" transform="translate(-16,-206)rotate(-29.999999999999993)" style="font-size: 12px; font-family: Impact; fill: rgb(57, 59, 121);">teele</text><text text-anchor="middle" transform="translate(-83,-5)rotate(-29.999999999999993)" style="font-size: 12px; font-family: Impact; fill: rgb(82, 84, 163);">space</text><text text-anchor="middle" transform="translate(421,-41)rotate(-59.99999999999999)" style="font-size: 10px; font-family: Impact; fill: rgb(107, 110, 207);">dishwasher</text><text text-anchor="middle" transform="translate(-251,-163)rotate(-59.99999999999999)" style="font-size: 10px; font-family: Impact; fill: rgb(156, 158, 222);">wood</text><text text-anchor="middle" transform="translate(237,-30)rotate(29.999999999999993)" style="font-size: 10px; font-family: Impact; fill: rgb(99, 121, 57);">views</text><text text-anchor="middle" transform="translate(65,86)rotate(0)" style="font-size: 10px; font-family: Impact; fill: rgb(140, 162, 82);">washer</text><text text-anchor="middle" transform="translate(-163,179)rotate(29.999999999999993)" style="font-size: 10px; font-family: Impact; fill: rgb(181, 207, 107);">tufts</text><text text-anchor="middle" transform="translate(-215,64)rotate(59.99999999999999)" style="font-size: 10px; font-family: Impact; fill: rgb(206, 219, 156);">fitness</text><text text-anchor="middle" transform="translate(383,-162)rotate(-59.99999999999999)" style="font-size: 37px; font-family: Impact; fill: rgb(123, 65, 115);">bathroom</text><text text-anchor="middle" transform="translate(-312,183)rotate(60)" style="font-size: 34px; font-family: Impact; fill: rgb(82, 84, 163);">appliances</text></g></svg>
+                        <p style="font-family:'Lora',serif;margin-top:5px;font-size:18px;text-align:left;line-height:2;margin-top:20px;" align="center">We parsed descriptions in the Craigslist posts and found effective words that show up over 100 times in the description. The most frequent word is “month”. Location keywords like Cambridge, Davis, Harvard, Central are the popular ones. Amenities like how water, parking, kitchen, heat, laundry, etc. are mentioned many times.</p>                   
+                   <h2 style="font-family:'Montserrat',sans-serif;font-size:25px;margin-bottom:0px;color:#333;text-transform: uppercase"><b>Bar chart</b></h2>
+                        <div id="barchart_material3" style="width:900px; height:820px;align-items:center;margin-bottom:10px;margin-top:-80px;" align="center"></div>
+                        <p style="font-family:'Lora',serif;margin-top:-80px;font-size:18px;text-align:left;line-height:2;" align="center">Here is an overview of some selected key words. Of 4,000 appropriate posts, “month” is mentioned most times (over 6,000 times). “Pet” is also a hot word, which is mentioned over 1,500 times. Among amenities, “hot water”, “parking”, “laundry”, “kitchen” are mostly used to advertise the property. Among adjectives, modern, spacious, amazing, furnished are popular ones. There are other interesting features that the landlords think can boost their property value like (close to) redline, (close to) school, gym, etc.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- history Section -->
+    <section id="history" class="history-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                  <h1 style="font-family:'Montserrat',sans-serif;text-transform:uppercase;font-size:45px;font-weight:800;margin-bottom:30px;text-align:center;letter-spacing:2px"><b>history analysis</b></h1>
+                   <p style="font-size:18px;font-family:'Lora',serif;color:#333;margin-bottom:15px;margin-top:30px;" align="center">Besides parsing Boston Craigslist in April, we also used two-year Craiglist data provided by Boston Metropolitan Area Planning Council and prof. Joseph Ferreira at DUSP at MIT.   </p>
+                  <h2 style="font-family:'Montserrat',sans-serif;font-size:25px;margin-bottom:20px;color:#333;text-transform: uppercase;letter-spacing: 3px;"><b>Posting time</b></h2>
+                     <iframe width="100%" height="650" frameborder="0" 
+                     /src="https://yilingxie.carto.com/viz/9b857164-3487-11e7-8d63-0e98b61680bf/embed_map" 
+                     /allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen>
+                     </iframe>
+                     <p style="font-family:'Lora',serif;margin-top:5px;font-size:18px;text-align:left;line-height:2;" align="center">This map displays the temporal distribution of rental house in Cambridge and Somerville in one year. Craigslist postings from March, 2015 to March 2016 were collected and visualized. The result shows that most rental houses are posted during October - December, 2015 and February- March, 2016</p>
+                  <h2 style="font-family:'Montserrat',sans-serif;font-size:25px;margin-bottom:20px;color:#333;text-transform: uppercase;letter-spacing: 3px;"><b>Average Price</b></h2>
+                        <div id="barchart_material1" style="width: 900px; height: 480px;align-items: center;margin-bottom:10px;" align="center"></div>
+                        <p style="font-family:'Lora',serif;margin-top:5px;font-size:18px;line-height:2;" align="center">When we divide posts according to their posting time into four seasons of the year, we can see the average renting price in Cambridge fluctuates between 1700 and 1900 per bedroom and a slight increase of renting price per bedroom in Somerville from $800 to $1200+. In general, renting price in Cambridge is much higher than that in Somerville.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 style="font-family:'Montserrat',sans-serif;text-transform:uppercase;font-size:45px;font-weight:800;line-height:1.1"><b>Our Amazing Team</b></h2>
+                    <h3 style="font-family:'Droid Serif',serif;font-style:italic;font-size:16px;margin-bottom:70px;margin-top:30px;color:#777">Formed as team HouseMatters for the final project for class 1.001 Engineering Computation and Data Science at MIT in Spring 2017</h3>
+                </div>
+            </div>
+                <div class="col-sm-4">
+                        <img style="vertical-align:middle;border-radius:100%;border:7px solid white;" class="img-circle" src="img/team/1.jpg" alt="">
+                        <h4 style="font-family:'Montserrat',sans-serif;margin-top:20px;font-weight:700;">Xuenan NI</h4>
+                        <p style="font-family:'Droid Serif',serif;font-style:italic;color:#777;margin-top:0">MCP/MST</p>
+                    </div>
+                <div class="col-sm-4">
+                        <img style="vertical-align:middle;border-radius:100%;border:7px solid white;" class="img-circle" src="img/team/2.jpg" alt="">
+                        <h4 style="font-family:'Montserrat',sans-serif;margin-top:20px;font-weight:700;">Yihang SUI</h4>
+                        <p style="font-family:'Droid Serif',serif;font-style:italic;color:#777;margin-top:0">MST</p>
+                    </div>
+                <div class="col-sm-4">
+                    <div class="team-member">
+                        <img style="vertical-align:middle;border-radius:100%;border:7px solid white;" class="img-circle" src="img/team/3.jpg"alt="">
+                        <h4 style="font-family:'Montserrat',sans-serif;margin-top:20px;font-weight:700;">Yiling XIE</h4>
+                        <p style="font-family:'Droid Serif',serif;font-style:italic;color:#777;margin-top:0">MCP</p>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <p style="font-family:'Lora',serif;margin-top:30px;font-size:18px;text-align:center;line-height:2;" align="center">We are three master students at Courses 1 and 11 at MIT, who care about unrevealing patterns of spatial orientation in urban life and using technology to inform people with interesting ideas.</p>
+                </div>
+            </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+      <div class="w3-container w3-padding-64" id="contact">
+         <h1 style="font-family:'Montserrat',sans-serif;text-transform:uppercase;font-size:45px;font-weight:800;line-height:1.1;text-align:center"><b>Contact us</b></h1><br>
+            <p style="font-family:'Droid Serif',serif;font-style:italic;font-size:15px;margin-bottom:10px;color:#777;text-align:center">If you have any questions, please send us an email. We will get back to you as soon as possible!</p>
+            <p class="w3-text-blue-grey w3-large" align = "center"><b>77 Massachusetts Avenue, cambridge MA 02139</b></p>
+            <p style="font-family:'Droid Serif',serif;font-size:15px;margin-top:20px;margin-bottom:20px;color:#333;text-align:center" align = "center">You can also contact us by email Xuenan NI <a href="mailto:xuenannni@mit.edu">(xuenanni@mit.edu)</a>, Yihang SUI <a href="mailto:suiyh@mit.edu">(suiyh@mit.edu)</a> or Yiling XIE<a href="mailto:yilingx@mit.edu">(yilingx@mit.edu)</a>, or you can send us a message here:</p>
+            <form action="./pop-up.php" target="_blank">
+            <p align = "center"><input class="w3-input w3-padding-16" type="text" placeholder="Name" required name="Name"></p>
+            <p align = "center"><input class="w3-input w3-padding-16" type="text" placeholder="Subject" required name="People"></p>
+            <p align = "center"><input class="w3-input w3-padding-16" type="datetime" placeholder="Date and time" required name="date"></p>
+            <p align = "center"><input class="w3-input w3-padding-16" type="text" placeholder="Message" required name="Message"></p>
+            <p align = "center"><button class="w3-button w3-light-grey w3-section" type="submit">SEND MESSAGE</button></p>
+         </form>
+       </div>
+     </section>
+
+    <!-- Footer -->
+    <footer class="w3-center w3-light-grey w3-padding-32">
+    <p>Powered by HouseMatters@mit</a></p>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Scrolling Nav JavaScript -->
+    <script src="js/jquery.easing.min.js"></script>
+    <script src="js/scrolling-nav.js"></script>
+
+
+</body>
+
+</html>

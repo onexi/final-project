@@ -1,0 +1,66 @@
+  <html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Key Words', 'Count'],
+          ['month',6140],
+          ['broker', 3336],
+          ['pet', 1596],
+          ['hot', 1368],
+          ['water', 1177],
+          ['parking', 862], 
+          ['laundry', 842], 
+          ['kitchen', 722],
+          ['cat', 826],
+          ['walk', 663],
+          ['central', 601],
+          ['harvard', 592],
+          ['davis', 545],
+          ['negotiable', 514],
+          ['modern', 405],
+          ['heat', 376],
+          ['spacious', 188],
+          ['amazing', 125],
+          ['bicycle', 121],
+          ['furnished', 118],
+          ['luxury', 112],
+          ['kendall', 111],
+          ['red', 110],
+          ['dog', 91],
+          ['t', 79],
+          ['school', 46],
+          ['gym', 20]
+    ]);
+
+
+        var options = {
+            'title': 'Word Count (interesting ones) in Posting Descriptions',
+            width: 800,
+            height:700,
+            'subtitle': '2015-2016',
+            colors:['#91ca76'],
+             vAxis : { 
+        textStyle : {
+            fontSize: 13 // or the number you want
+        }
+
+    }
+          //  bar: {groupWidth: "95%"} // Required for Material Bar Charts.
+
+        };
+
+        var chart = new google.visualization.BarChart(document.getElementById('barchart_material'));
+
+        chart.draw(data, options);
+      }
+    </script>
+  </head>
+  <body>
+    <div id="barchart_material" style="width: 900px; height: 800px;"></div>
+  </body>
+</html>-->

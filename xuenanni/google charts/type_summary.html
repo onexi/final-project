@@ -1,0 +1,41 @@
+  <html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Bedroom Type', 'Bedroom Count'],
+          ['1B', 1330],
+          ['2B', 1225],
+          ['3B', 942],
+          ['4B', 598],
+          ['5B', 127],
+          ['6B', 50], 
+          ['7B', 7], 
+          ['8B', 8] 
+        ]);
+
+
+        var options = {
+            'title': 'Number of Posts by Type at around April/2017',
+            width: 800,
+            height:500,
+            'subtitle': '2015-2016',
+            colors:['#f25643'],
+            bar: {groupWidth: "95%"} // Required for Material Bar Charts.
+
+        };
+
+        var chart = new google.visualization.BarChart(document.getElementById('barchart_material'));
+
+        chart.draw(data, options);
+      }
+    </script>
+  </head>
+  <body>
+    <div id="barchart_material" style="width: 900px; height: 500px;"></div>
+  </body>
+</html>-->
