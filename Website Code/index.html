@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<!--
+	Interphase by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>GoldenLyrics MIT 1.001 Project</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/skel.min.js"></script>
+		<script src="js/skel-layers.min.js"></script>
+		<script src="js/init.js"></script>
+		<noscript>
+			<link rel="stylesheet" href="css/skel.css" />
+			<link rel="stylesheet" href="css/style.css" />
+			<link rel="stylesheet" href="css/style-xlarge.css" />
+		</noscript>
+		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
+	</head>
+	<body class="landing">
+
+		<!-- Header -->
+			<header id="header">
+				<h1><a href="index.html"></a></h1>
+				<nav id="nav">
+					<ul>
+						<li><a href="index.html">Data Visualizations</a></li>
+						<li><a href="generic.html">Predictions</a></li>
+						<li><a href="elements.html">Credits</a></li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Banner -->
+			<section id="banner">
+				<h2>GoldenLyrics</h2>
+				<p>Do you think you can write your own hit song?</p>
+				
+			</section>
+
+		<!-- One -->
+			<section id="one" class="wrapper style1 align-center">
+				<div class="container">
+					<header>
+						<h2>Music Lyrics Data Analysis Project</h2>
+						<p>An interactive tool to understand and predict the connections between a song's lyrics and its popularity.</p>
+					</header>
+					<div class="row 200%">
+						<section class="4u 12u$(small)">
+							<i class="icon big rounded fa-bar-chart"></i>
+							<p>Visualize through multiple plots how lyrics have shaped popular songs since 1965. Key studied parameters include themes, vocabulary richness and use of vulgarity.</p>
+						</section>
+						<section class="4u 12u$(small)">
+							<i class="icon big rounded fa-calendar"></i>
+							<p>Modern or Vintage? Input your own lyrics and learn what decade your song would have been most popular in.</p>
+						</section>
+						<section class="4u$ 12u$(small)">
+							<i class="icon big rounded fa-music"></i>
+							<p>To be or not to be? Input your own lyrics and learn if your song is destined for success in 2017.</p>
+						</section>
+					</div>
+				</div>
+			</section>
+
+		<!-- Two -->
+			<section id="two" class="wrapper style2 align-center">
+				<div class="container">
+					<header>
+						<h2>Data Visualization: Popular Songs and their Lyrics</h2>
+						<p>The following visualizations are made from a dataset containing the lyrics of the Billboard Top 100 songs in the US of every year since 1965.</p>
+					</header>
+					<div class="row">
+                        <h3 class="title"><b>Song Length - number of words in the song</b></h3>
+                        <p>This is the simplest parameter: how many words does your song have? As you can see, the general trend shows an increase in the songs' lyrics' lengths over the years, with 2003 and 2006 the peak years for average song length.</p>
+						<section class="feature 6u 12u$(small)">
+							<img class="image fit" src="images/Lyrics_Length.png" alt="" />
+							<h4 class="title">Song Length (individual songs)</h4>
+						</section>
+						<section class="feature 6u$ 12u$(small)">
+							<img class="image fit" src="images/Average_Length.png" alt="" />
+							<h4 class="title">Song Length (average over the Top 100 of each year)</h4>
+                            
+						</section>
+
+                        <h3 class="title"><b>Vocabulary Richness - number of different words in the song</b></h3>
+                        <p>Another simple parameter: how many different words do your lyrics contain? Again, the general trend is an increase in the number of different words used per song, with 2003 another peak year. Similar to the song length, a significant decrease can be observed since 2003.</p>
+						<section class="feature 6u 12u$(small)">
+							<img class="image fit" src="images/Vocab_Richness.png" alt="" />
+							<h4 class="title">Vocabulary Richness (individual songs)</h4>
+						</section>
+						<section class="feature 6u$ 12u$(small)">
+							<img class="image fit" src="images/Averafe_richness.png" alt="" />
+							<h4 class="title">Vocabulary Richness (average over the Top 100 of each year)</h4>
+                            
+						</section>
+
+                        <h3 class="title"><b>Words most Frequently Used</b></h3>
+                        <p>The following word cloud displays the 100 words used the most in popular songs. This parameter in the prediction measures how many of the 100 words each song contains. Since there is no filtering on the popular words, it is not surprising to find "you", "I" and "the" as the most frequently used words in lyrics.</p>
+						<section class="feature 12u 12u$(small)">
+							<center><img class = "image fit" src="images/Frequent.png" align = "middle"/></center>
+							
+						</section>
+
+                        <h3 class="title"><b>Themes of a song - how many words reference each topic</b></h3>
+                        <p>Every song has an overarching theme or message! Using wordbanks for each main topic (music, lifestyle, party, love, death and religion), we can count how many words of the song reference these topics and estimate the main theme of the song. The plot shows the dominance of love themes in popular songs, while religion and death are less popular topics for lyricists. </p>
+						<section class="feature 12u 12u$(small)">
+							<center><img class = "image fit" src="images/Topics.png" align = "middle"/></center>
+							
+						</section>
+
+                        <h3 class="title"><b>Use of Vulgarity - number of "vulgar" words per song</b></h3>
+                        <p>Vulgarity is increasingly present in popular songs, especially in genres such as hip hop. The graph below shows the average number of "vulgar" words used per song over the top 100 of each year. 2004 was a peak year for vulgarity in the Billboard US Top 100, and it seems 2017 will reach a similar level.</p>
+						<section class="feature 12u 12u$(small)">
+							<center><img class = "image fit" src="images/Vulgarity.png" align = "middle"/></center>
+							
+						</section>
+
+                        <h3 class="title"><b>Sentiment of the song - happy or sad?</b></h3>
+                        <p>Must a song be happy for it to be popular? What emotions are lyricists trying to convey? The next chart shows a simplified analysis of the sentiment/modd of the songs every year. Overall, there are about twice as more "happy" songs than "sad" ones every year, and the trend seems to be constant over the years.</p>
+						<section class="feature 12u 12u$(small)">
+							<center><img class = "image fit" src="images/Sentiment.png" align = "middle"/></center>
+							
+						</section>
+
+
+                        <h3 class="title"><b>Use of Repetiton - number of words repeted at least 4 times</b></h3>
+                        <p>Do you ever feel that a song is beating you to death with a chorus line repeted 10 times? This is a common strategy for lyrics writers, repetition helps listeners memorize the lyrics and creates greater impact. This graph shows how many words per song on average are repeted at least 4 times. The condition that the words be at least 5 characters long is to avoid frequent words such as "I", "you", "a", "the", etc. to be taken into consideraton.</p>
+						<section class="feature 12u 12u$(small)">
+							<center><img class = "image fit" src="images/Repetition.png" align = "middle"/></center>
+							
+						</section>
+						
+                        
+
+					</div>
+					<footer>
+						<ul class="actions">
+							<li>
+								<a href="file:///Users/tanguyraguenez/Desktop/1.001%20Project/templated-interphase/elements.html" class="button alt big">Learn More</a>
+							</li>
+						</ul>
+					</footer>
+				</div>
+			</section>
+
+		<!-- Footer -->
+			<footer id="footer">
+				<div class="container">
+					
+					<ul class="copyright">
+						<li>&copy; Untitled. All rights reserved.</li>
+						<li>Design: <a href="http://templated.co">TEMPLATED</a></li>
+						
+					</ul>
+				</div>
+			</footer>
+
+	</body>
+</html>
