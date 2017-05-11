@@ -1,0 +1,31 @@
+{
+  "name": "ex-googlecharts-climate",
+  "description": "ex-googlecharts-climate",
+  "author": "prof",
+  "keywords": [
+    "ex-googlecharts-climate"
+  ],
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "gulp test"
+  },
+  "devDependencies": {
+    "eslint": "^3.15.0",
+    "gulp": "^3.9.1",
+    "mocha": "^3.2.0",
+    "mute": "^2.0.6",
+    "q": "^1.4.1",
+    "request": "^2.79.0"
+  },
+  "dependencies": {
+    "chai": "^3.5.0",
+    "jsonfile": "^3.0.0",
+    "ml-sentiment": "^2.0.7",
+    "mocha": "^3.2.0"
+  }
+}
