@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>1.00</title>
+    <link rel="stylesheet" type="text/css" href="leaflet/leaflet.css" />
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/jquery"></script>
+    <script type='text/javascript' src='leaflet/leaflet.js'></script>
+    <script src="mapping.js" type="text/javascript"></script>
+    <style>
+        body {
+            overflow: hidden;
+        }
+        h1 { 
+            display: block;
+            font-size: 2em;
+            margin-top: 0.67em;
+            margin-bottom: 0.67em;
+            margin-left: 0;
+            margin-right: 0;
+            font-weight: bold;
+            font-family: 'arial'
+        }
+        #view {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+        #map {
+            position: absolute;
+            top: 0;
+            right: 0px;
+            bottom: 0;
+            left: 0px;
+            transition-property: all;
+            transition-duration: 1.0s;
+        }
+        #map.hidden {
+            top: -200%;
+        }
+        #iframe {
+            z-index: 1000;
+            background-color: white;
+            position: absolute;
+            top: -220px;
+            left: 0;
+            bottom: 0px;
+            width: 0px;
+        }
+        #iframe iframe {
+            width: 100%;
+            height: 115%;
+        }
+        #schoolinfo {
+            position: absolute;
+            top: 200%;
+            left: 400px;
+            right: 0;
+            height: 100%;
+            transition-property: all;
+            transition-duration: 1.0s;
+            overflow: scroll;
+        }
+        #schoolinfo.visible {
+            top: 0px;
+        }
+        
+        #schoolinfo svg{
+            position:absolute;
+            top:70px;
+            left:20px;
+            transform: translate(-50%,-50%);
+            width:1240px;
+            height:640px;
+        }
+        
+        #iframe{
+            position:absolute;
+            top:0;
+            width:30%;
+            height:100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="view">
+        <div id="iframe">
+            <button v-if="cloudy" style="position:absolute;top:230px;right:10px;z-index:100;" @click='dosomething'>X</button>
+            <iframe id="viewer" src="buildbps.html"></iframe>
+        </div>
+        <div id='map' v-bind:class="{ hidden: cloudy }"></div>
+        <div id='schoolinfo' v-bind:class="{ visible: cloudy }">
+            <h3>Unfortunately, data for your neighborhood isn't available. Try another neighborhood with a flag!</h3>
+        </div>
+    </div>
+    <script>
+        var fenway_html = "<p style='font-family:arial;color:navy;text-align:left;font-size:150%'> Boston's schools are falling apart. Literally.<br> <span style = 'color:#420C3B;font-size:120%'> <b>How do Fenway's stack up?</b> </span> </p> <style type='text/css'> #wrap { width:600px; margin:0 auto; } #left_col { float:left; text-align: center; width:250px; margin:auto; } #right_col { float:right; text-align:center; width:250px; } </style> <div id='wrap'> <div id='left_col'> <h3 style= 'font-family:arial;color:navy;text-align:center;font-size:150%'>Fenway Average</h3> <p style='font-family:arial;font-size:200%'><b>2.3</b>/4</p> </div> <div id='right_col'> <h3 style= 'font-family:arial;color:navy;text-align:center;font-size:150%'>Boston Average</h3> <p style='font-family:arial;font-size:200%'><b>2.7</b>/4</p> </div> </div> <style type='text/css'> #left_col3 { float:left; width:1200px; margin:auto; } </style> <div id='left_col3'> <h3 style='font-family:arial;color:#420C3B;text-align:left;font-size:150%'>The schools with the worst conditions?</span><br> </h3> </div> <style type='text/css'> #wrap { width:600px; margin:0 auto; } #left_col { float:left; text-align: center; width:250px; margin:auto; } #right_col { float:right; text-align:center; width:250px; } </style> <div id='wrap'> <div id='left_col'> <h3 style= 'font-family:arial;color:navy;text-align:center'>McKinley Middle</h3> <p style='font-family:arial'><b>Student Population:</b> 55<br> <b>Condition:</b> Fair</p> <img src = 'McKinleyMiddle.jpeg' style='width:304px;height:228px'> </div> <div id='right_col'> <h3 style='font-family:arial;color:navy;text-align:center'>McKinley Prep</h3> <p style='font-family:arial'><b>Student Population:</b> 103<br> <b>Condition:</b> Fair</p> <img src = 'McKinnleyPrep.jpeg' style='width:304px;height:228px'> </div> </div> <style type='text/css'> #left_col2 { float:left; width:1200px; margin:auto; } a:link{ color: #420C3B; text-decoration: none; } a:hover{ color: black; } </style> <div id='left_col2'> <h3 style='font-family:arial;color:#420C3B;text-align:left;font-size:150%'>This is where we educate Fenway's future. <br><span style='color:navy;font-size:120%'>Do you think our children deserve better?</span><br><br> <span style='font-size:110%'> <a href='https://docs.google.com/forms/d/e/1FAIpQLSdOPBdX8ZHWO6O8KJrhtcdy4-YjYTJdwmxSfgBMsHBkF6xYvw/viewform?c=0&w=1'>Tell the BPS planning commmittee your thoughts now.</a></span></h3> </div>"
+        var dorchester_html = "<p style='font-family:arial;color:navy;text-align:left;font-size:150%'> Boston's schools are falling apart. Literally.<br> <span style = 'color:#420C3B;font-size:120%'> <b>How do Dorchester's stack up?</b> </span> </p> <style type='text/css'> #wrap { width:600px; margin:0 auto; } #left_col { float:left; text-align: center; width:250px; margin:auto; } #right_col { float:right; text-align:center; width:250px; } </style> <div id='wrap'> <div id='left_col'> <h3 style= 'font-family:arial;color:navy;text-align:center;font-size:150%'>Dorchester Average</h3> <p style='font-family:arial;font-size:200%'><b>2.6</b>/4</p> </div> <div id='right_col'> <h3 style= 'font-family:arial;color:navy;text-align:center;font-size:150%'>Boston Average</h3> <p style='font-family:arial;font-size:200%'><b>2.7</b>/4</p> </div> </div> <style type='text/css'> #left_col3 { float:left; width:1200px; margin:auto; } </style> <div id='left_col3'> <h3 style='font-family:arial;color:#420C3B;text-align:left;font-size:150%'>The schools with the worst conditions?</span><br> </h3> </div> <style type='text/css'> #wrap { width:600px; margin:0 auto; } #left_col { float:left; text-align: center; width:250px; margin:auto; } #right_col { float:right; text-align:center; width:250px; } </style> <div id='wrap'> <div id='left_col'> <h3 style= 'font-family:arial;color:navy;text-align:center'>Paul A. Dever Elementary</h3> <p style='font-family:arial'><b>Student Population:</b> 498<br> <b>Condition:</b> Poor</p> <img src = 'dorchester1.jpeg' style='width:304px;height:228px'> </div> <div id='right_col'> <h3 style='font-family:arial;color:navy;text-align:center'>Mather Elementary</h3> <p style='font-family:arial'><b>Student Population:</b> 601<br> <b>Condition:</b> Fair</p> <img src = 'dorchester2.jpeg' style='width:304px;height:228px'> </div> </div> <style type='text/css'> #left_col2 { float:left; width:1200px; margin:auto; } a:link{ color: #420C3B; text-decoration: none; } a:hover{ color: black; } </style> <div id='left_col2'> <h3 style='font-family:arial;color:#420C3B;text-align:left;font-size:150%'>This is where we educate Dorchester's future. <br><span style='color:navy;font-size:120%'>Do you think our children deserve better?</span><br><br> <span style='font-size:110%'> <a href='https://docs.google.com/forms/d/e/1FAIpQLSdOPBdX8ZHWO6O8KJrhtcdy4-YjYTJdwmxSfgBMsHBkF6xYvw/viewform?c=0&w=1'>Tell the BPS planning commmittee your thoughts now.</a></span></h3> </div>"
+         var missionhill_html = "<p style='font-family:arial;color:navy;text-align:left;font-size:150%'> Boston's schools are falling apart. Literally.<br> <span style = 'color:#420C3B;font-size:120%'> <b>How do Mission Hill's stack up?</b> </span> </p> <style type='text/css'> #wrap { width:600px; margin:0 auto; } #left_col { float:left; text-align: center; width:250px; margin:auto; } #right_col { float:right; text-align:center; width:250px; } </style> <div id='wrap'> <div id='left_col'> <h3 style= 'font-family:arial;color:navy;text-align:center;font-size:150%'>Mission Hill Average</h3> <p style='font-family:arial;font-size:200%'><b>3.0</b>/4</p> </div> <div id='right_col'> <h3 style= 'font-family:arial;color:navy;text-align:center;font-size:150%'>Boston Average</h3> <p style='font-family:arial;font-size:200%'><b>2.7</b>/4</p> </div> </div> <style type='text/css'> #left_col3 { float:left; width:1200px; margin:auto; } </style> <div id='left_col3'> <h3 style='font-family:arial;color:#420C3B;text-align:left;font-size:150%'>The schools with the worst conditions?</span><br> </h3> </div> <style type='text/css'> #wrap { width:600px; margin:0 auto; } #left_col { float:left; text-align: center; width:250px; margin:auto; } #right_col { float:right; text-align:center; width:250px; } </style> <div id='wrap'> <div id='left_col'> <h3 style= 'font-family:arial;color:navy;text-align:center'>Maurice J. Tobin K-8</h3> <p style='font-family:arial'><b>Student Population:</b> 453<br> <b>Condition:</b> Fair</p> <img src = 'missionhill1.jpeg' style='width:304px;height:228px'> </div> <div id='right_col'> <h3 style='font-family:arial;color:navy;text-align:center'>Kennedy Academy for Health Careers</h3> <p style='font-family:arial'><b>Student Population:</b> 193<br> <b>Condition:</b> Good</p> <img src = 'missionhill2.png' style='width:304px;height:228px'> </div> </div> <style type='text/css'> #left_col2 { float:left; width:1200px; margin:auto; } a:link{ color: #420C3B; text-decoration: none; } a:hover{ color: black; } </style> <div id='left_col2'> <h3 style='font-family:arial;color:#420C3B;text-align:left;font-size:150%'>This is where we educate Mission Hill's future. <br><span style='color:navy;font-size:120%'>Do you think our children deserve better?</span><br><br> <span style='font-size:110%'> <a href='https://docs.google.com/forms/d/e/1FAIpQLSdOPBdX8ZHWO6O8KJrhtcdy4-YjYTJdwmxSfgBMsHBkF6xYvw/viewform?c=0&w=1'>Tell the BPS planning commmittee your thoughts now.</a></span></h3> </div>"
+         var mattapan_html = "<p style='font-family:arial;color:navy;text-align:left;font-size:150%'> Boston's schools are falling apart. Literally.<br> <span style = 'color:#420C3B;font-size:120%'> <b>How do Mattapan's stack up?</b> </span> </p> <style type='text/css'> #wrap { width:600px; margin:0 auto; } #left_col { float:left; text-align: center; width:250px; margin:auto; } #right_col { float:right; text-align:center; width:250px; } </style> <div id='wrap'> <div id='left_col'> <h3 style= 'font-family:arial;color:navy;text-align:center;font-size:150%'>Mattapan Average</h3> <p style='font-family:arial;font-size:200%'><b>2.6</b>/4</p> </div> <div id='right_col'> <h3 style= 'font-family:arial;color:navy;text-align:center;font-size:150%'>Boston Average</h3> <p style='font-family:arial;font-size:200%'><b>2.7</b>/4</p> </div> </div> <style type='text/css'> #left_col3 { float:left; width:1200px; margin:auto; } </style> <div id='left_col3'> <h3 style='font-family:arial;color:#420C3B;text-align:left;font-size:150%'>The schools with the worst conditions?</span><br> </h3> </div> <style type='text/css'> #wrap { width:600px; margin:0 auto; } #left_col { float:left; text-align: center; width:250px; margin:auto; } #right_col { float:right; text-align:center; width:250px; } </style> <div id='wrap'> <div id='left_col'> <h3 style= 'font-family:arial;color:navy;text-align:center'>Charles H. Taylor Elementary</h3> <p style='font-family:arial'><b>Student Population:</b> 508<br> <b>Condition:</b> Fair</p> <img src = 'mattapan1.jpeg' style='width:304px;height:228px'> </div> <div id='right_col'> <h3 style='font-family:arial;color:navy;text-align:center'>Young Achievers Science & Math K-8</h3> <p style='font-family:arial'><b>Student Population:</b> 548<br> <b>Condition:</b> Good</p> <img src = 'mattapan2.jpeg' style='width:304px;height:228px'> </div> </div> <style type='text/css'> #left_col2 { float:left; width:1200px; margin:auto; } a:link{ color: #420C3B; text-decoration: none; } a:hover{ color: black; } </style> <div id='left_col2'> <h3 style='font-family:arial;color:#420C3B;text-align:left;font-size:150%'>This is where we educate Mattapan's future. <br><span style='color:navy;font-size:120%'>Do you think our children deserve better?</span><br><br> <span style='font-size:110%'> <a href='https://docs.google.com/forms/d/e/1FAIpQLSdOPBdX8ZHWO6O8KJrhtcdy4-YjYTJdwmxSfgBMsHBkF6xYvw/viewform?c=0&w=1'>Tell the BPS planning commmittee your thoughts now.</a></span></h3> </div>"
+         var eastboston_html = "<p style='font-family:arial;color:navy;text-align:left;font-size:150%'> Boston's schools are falling apart. Literally.<br> <span style = 'color:#420C3B;font-size:120%'> <b>How do East Boston's stack up?</b> </span> </p> <style type='text/css'> #wrap { width:600px; margin:0 auto; } #left_col { float:left; text-align: center; width:250px; margin:auto; } #right_col { float:right; text-align:center; width:250px; } </style> <div id='wrap'> <div id='left_col'> <h3 style= 'font-family:arial;color:navy;text-align:center;font-size:150%'>East Boston Average</h3> <p style='font-family:arial;font-size:200%'><b>2.8</b>/4</p> </div> <div id='right_col'> <h3 style= 'font-family:arial;color:navy;text-align:center;font-size:150%'>Boston Average</h3> <p style='font-family:arial;font-size:200%'><b>2.7</b>/4</p> </div> </div> <style type='text/css'> #left_col3 { float:left; width:1200px; margin:auto; } </style> <div id='left_col3'> <h3 style='font-family:arial;color:#420C3B;text-align:left;font-size:150%'>The schools with the worst conditions?</span><br> </h3> </div> <style type='text/css'> #wrap { width:600px; margin:0 auto; } #left_col { float:left; text-align: center; width:250px; margin:auto; } #right_col { float:right; text-align:center; width:250px; } </style> <div id='wrap'> <div id='left_col'> <h3 style= 'font-family:arial;color:navy;text-align:center'>Samuel Adams Elementary</h3> <p style='font-family:arial'><b>Student Population:</b> 302<br> <b>Condition:</b> Poor</p> <img src = 'eastboston1.jpeg' style='width:304px;height:228px'> </div> <div id='right_col'> <h3 style='font-family:arial;color:navy;text-align:center'>Donald McKay K-8</h3> <p style='font-family:arial'><b>Student Population:</b> 690<br> <b>Condition:</b> Fair</p> <img src = 'eastboston2.jpeg' style='width:304px;height:228px'> </div> </div> <style type='text/css'> #left_col2 { float:left; width:1200px; margin:auto; } a:link{ color: #420C3B; text-decoration: none; } a:hover{ color: black; } </style> <div id='left_col2'> <h3 style='font-family:arial;color:#420C3B;text-align:left;font-size:150%'>This is where we educate East Boston's future. <br><span style='color:navy;font-size:120%'>Do you think our children deserve better?</span><br><br> <span style='font-size:110%'> <a href='https://docs.google.com/forms/d/e/1FAIpQLSdOPBdX8ZHWO6O8KJrhtcdy4-YjYTJdwmxSfgBMsHBkF6xYvw/viewform?c=0&w=1'>Tell the BPS planning commmittee your thoughts now.</a></span></h3> </div>"
+        var southboston_html = "<p style='font-family:arial;color:navy;text-align:left;font-size:150%'> Boston's schools are falling apart. Literally.<br> <span style = 'color:#420C3B;font-size:120%'> <b>How do South Boston's stack up?</b> </span> </p> <style type='text/css'> #wrap { width:600px; margin:0 auto; } #left_col { float:left; text-align: center; width:250px; margin:auto; } #right_col { float:right; text-align:center; width:250px; } </style> <div id='wrap'> <div id='left_col'> <h3 style= 'font-family:arial;color:navy;text-align:center;font-size:150%'>South Boston Average</h3> <p style='font-family:arial;font-size:200%'><b>2.3</b>/4</p> </div> <div id='right_col'> <h3 style= 'font-family:arial;color:navy;text-align:center;font-size:150%'>Boston Average</h3> <p style='font-family:arial;font-size:200%'><b>2.7</b>/4</p> </div> </div> <style type='text/css'> #left_col3 { float:left; width:1200px; margin:auto; } </style> <div id='left_col3'> <h3 style='font-family:arial;color:#420C3B;text-align:left;font-size:150%'>The schools with the worst conditions?</span><br> </h3> </div> <style type='text/css'> #wrap { width:600px; margin:0 auto; } #left_col { float:left; text-align: center; width:250px; margin:auto; } #right_col { float:right; text-align:center; width:250px; } </style> <div id='wrap'> <div id='left_col'> <h3 style= 'font-family:arial;color:navy;text-align:center'>Excel High</h3> <p style='font-family:arial'><b>Student Population:</b> 519<br> <b>Condition:</b> Fair</p> <img src = 'southboston1.jpeg' style='width:304px;height:228px'> </div> <div id='right_col'> <h3 style='font-family:arial;color:navy;text-align:center'>UP Academy Boston</h3> <p style='font-family:arial'><b>Student Population:</b> 472<br> <b>Condition:</b> Fair</p> <img src = 'southboston2.jpeg' style='width:304px;height:228px'> </div> </div> <style type='text/css'> #left_col2 { float:left; width:1200px; margin:auto; } a:link{ color: #420C3B; text-decoration: none; } a:hover{ color: black; } </style> <div id='left_col2'> <h3 style='font-family:arial;color:#420C3B;text-align:left;font-size:150%'>This is where we educate South Boston's future. <br><span style='color:navy;font-size:120%'>Do you think our children deserve better?</span><br><br> <span style='font-size:110%'> <a href='https://docs.google.com/forms/d/e/1FAIpQLSdOPBdX8ZHWO6O8KJrhtcdy4-YjYTJdwmxSfgBMsHBkF6xYvw/viewform?c=0&w=1'>Tell the BPS planning commmittee your thoughts now.</a></span></h3> </div>"
+        var allston_html = "<p style='font-family:arial;color:navy;text-align:left;font-size:150%'> Boston's schools are falling apart. Literally.<br> <span style = 'color:#420C3B;font-size:120%'> <b>How do Allston's stack up?</b> </span> </p> <style type='text/css'> #wrap { width:600px; margin:0 auto; } #left_col { float:left; text-align: center; width:250px; margin:auto; } #right_col { float:right; text-align:center; width:250px; } </style> <div id='wrap'> <div id='left_col'> <h3 style= 'font-family:arial;color:navy;text-align:center;font-size:150%'>Allston Average</h3> <p style='font-family:arial;font-size:200%'><b>3.0</b>/4</p> </div> <div id='right_col'> <h3 style= 'font-family:arial;color:navy;text-align:center;font-size:150%'>Boston Average</h3> <p style='font-family:arial;font-size:200%'><b>2.7</b>/4</p> </div> </div> <style type='text/css'> #left_col3 { float:left; width:1200px; margin:auto; } </style> <div id='left_col3'> <h3 style='font-family:arial;color:#420C3B;text-align:left;font-size:150%'>The schools with the worst conditions?</span><br> </h3> </div> <style type='text/css'> #wrap { width:600px; margin:0 auto; } #left_col { float:left; text-align: center; width:250px; margin:auto; } #right_col { float:right; text-align:center; width:250px; } </style> <div id='wrap'> <div id='left_col'> <h3 style= 'font-family:arial;color:navy;text-align:center'>Boston Green Academy</h3> <p style='font-family:arial'><b>Student Population:</b> 437<br> <b>Condition:</b> Good</p> <img src = 'allston1.png' style='width:304px;height:228px'> </div> <div id='right_col'> <h3 style='font-family:arial;color:navy;text-align:center'>Jackson/Mann K-8</h3> <p style='font-family:arial'><b>Student Population:</b> 775<br> <b>Condition:</b> Good</p> <img src = 'allston2.jpeg' style='width:304px;height:228px'> </div> </div> <style type='text/css'> #left_col2 { float:left; width:1200px; margin:auto; } a:link{ color: #420C3B; text-decoration: none; } a:hover{ color: black; } </style> <div id='left_col2'> <h3 style='font-family:arial;color:#420C3B;text-align:left;font-size:150%'>This is where we educate Allston's future. <br><span style='color:navy;font-size:120%'>Do you think our children deserve better?</span><br><br> <span style='font-size:110%'> <a href='https://docs.google.com/forms/d/e/1FAIpQLSdOPBdX8ZHWO6O8KJrhtcdy4-YjYTJdwmxSfgBMsHBkF6xYvw/viewform?c=0&w=1'>Tell the BPS planning commmittee your thoughts now.</a></span></h3> </div>"
+        var neighborhood = ["Fenway", "Dorchester", "Mission Hill", "Mattapan", "East Boston", "South Boston", "Allston"]
+        var html = [fenway_html, dorchester_html, missionhill_html, mattapan_html, eastboston_html, southboston_html, allston_html]
+        var vm = new Vue({
+            el: "#view",
+            data: {
+                cloudy: false,
+            },
+            methods: {
+                dosomething: function () {
+                    this.cloudy=false;
+                    $("#viewer").attr("src", "buildbps.html");
+                }
+            }
+        })
+        var map = L.map('map').setView([42.353157, -71.110664], 13);
+        L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+            maxZoom: 18,
+            id: 'mapbox.light'
+        }).addTo(map);
+        var marker = L.popup()
+                      .setLatLng([42.35969, -71.12841])
+                      .setContent("<h3>Allston</h3>")
+                      .addTo(map);
+        var marker2 = L.popup()
+                      .setLatLng([42.3702, -71.0389])
+                      .setContent("<h3>East Boston</h3>")
+                      .addTo(map);
+        var marker3 = L.popup()
+                      .setLatLng([42.3441, -71.0957])
+                      .setContent("<h3>Fenway</h3>")
+                      .addTo(map);
+        var marker4 = L.popup()
+                      .setLatLng([42.2771, -71.0914])
+                      .setContent("<h3>Mattapan</h3>")
+                      .addTo(map);
+        var marker5 = L.popup()
+                      .setLatLng([42.3296, -71.1062])
+                      .setContent("<h3>Mission Hill</h3>")
+                      .addTo(map);
+        var marker6 = L.popup()
+                      .setLatLng([42.3016, -71.0676])
+                      .setContent("<h3>Dorchester</h3>")
+                      .addTo(map);        
+        var marker8 = L.popup()
+                      .setLatLng([36.6987, -78.9014])
+                      .setContent("<h3>South Boston</h3>")
+                      .addTo(map);             
+        function forFeature(feature, layer) {
+          if (feature.properties && feature.properties.popupContent) {
+            var popupContent = feature.properties.popupContent;}
+
+         layer.bindPopup(popupContent);
+         layer.on('click', function(e) {
+             vm.cloudy = true;
+             $("#viewer").attr("src", 'http://buildbps.org/landing');
+             if (neighborhood.indexOf(popupContent) == -1) {
+                $("#schoolinfo").html("<h3>Unfortunately, data for your neighborhood isn't available. Try another neighborhood with a flag!</h3>")
+             }
+             else{
+                $("#schoolinfo").html(html[neighborhood.indexOf(popupContent)])
+        }
+         })  }
+        
+        d3.select("iframe").attr("src", "buildbps.html");
+        L.geoJSON([neighborhoods], {
+          style: function (feature) {
+            return feature.properties && feature.properties.style;
+          },
+          onEachFeature: forFeature,
+        }).addTo(map);
+    </script>
+</body>
+</html>
